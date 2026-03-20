@@ -1,0 +1,155 @@
+@import "tailwindcss";
+
+@theme {
+  /* ─── Fonts ─────────────────────────────────────────── */
+  --font-headline: var(--font-noto-serif), "Noto Serif", serif;
+  --font-body:     var(--font-space-grotesk), "Space Grotesk", sans-serif;
+  --font-label:    var(--font-space-grotesk), "Space Grotesk", sans-serif;
+
+  /* ─── Border radius — sharp editorial corners ────────── */
+  --radius:     0px;
+  --radius-sm:  0px;
+  --radius-md:  0px;
+  --radius-lg:  0px;
+  --radius-xl:  0px;
+  --radius-2xl: 0px;
+  --radius-full: 9999px;
+
+  /* ─── Surface scale ──────────────────────────────────── */
+  --color-background:                #131313;
+  --color-surface:                   #131313;
+  --color-surface-dim:               #131313;
+  --color-surface-bright:            #3a3939;
+  --color-surface-container-lowest:  #0e0e0e;
+  --color-surface-container-low:     #1c1b1b;
+  --color-surface-container:         #201f1f;
+  --color-surface-container-high:    #2a2a2a;
+  --color-surface-container-highest: #353534;
+  --color-surface-variant:           #353534;
+  --color-surface-tint:              #fdba49;
+
+  /* ─── On-surface ─────────────────────────────────────── */
+  --color-on-surface:         #e5e2e1;
+  --color-on-surface-variant: #d5c4af;
+  --color-inverse-surface:    #e5e2e1;
+  --color-inverse-on-surface: #313030;
+
+  /* ─── Primary (Electric Amber) ───────────────────────── */
+  --color-primary:                  #ffc66b;
+  --color-primary-container:        #e8a838;
+  --color-primary-fixed:            #ffddaf;
+  --color-primary-fixed-dim:        #fdba49;
+  --color-on-primary:               #432c00;
+  --color-on-primary-container:     #5f3f00;
+  --color-on-primary-fixed:         #281800;
+  --color-on-primary-fixed-variant: #614000;
+  --color-inverse-primary:          #805600;
+
+  /* ─── Secondary ──────────────────────────────────────── */
+  --color-secondary:                  #c6c7c2;
+  --color-secondary-container:        #484a46;
+  --color-secondary-fixed:            #e3e3de;
+  --color-secondary-fixed-dim:        #c6c7c2;
+  --color-on-secondary:               #2f312e;
+  --color-on-secondary-container:     #b8b9b4;
+  --color-on-secondary-fixed:         #1a1c19;
+  --color-on-secondary-fixed-variant: #454744;
+
+  /* ─── Tertiary ───────────────────────────────────────── */
+  --color-tertiary:                  #aad4ff;
+  --color-tertiary-container:        #6ebafe;
+  --color-tertiary-fixed:            #cee5ff;
+  --color-tertiary-fixed-dim:        #97cbff;
+  --color-on-tertiary:               #003354;
+  --color-on-tertiary-container:     #004975;
+  --color-on-tertiary-fixed:         #001d33;
+  --color-on-tertiary-fixed-variant: #004a77;
+
+  /* ─── Outline ────────────────────────────────────────── */
+  --color-outline:         #9d8e7c;
+  --color-outline-variant: #504535;
+
+  /* ─── Error ──────────────────────────────────────────── */
+  --color-error:              #ffb4ab;
+  --color-error-container:    #93000a;
+  --color-on-error:           #690005;
+  --color-on-error-container: #ffdad6;
+}
+
+/* ─── Base ──────────────────────────────────────────────── */
+html {
+  background-color: #131313;
+  color: #e5e2e1;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: #131313;
+  color: #e5e2e1;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Smooth scroll ─────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ─── Scrollbar ─────────────────────────────────────────── */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ─── Scroll-triggered fade-in ──────────────────────────── */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+.fade-in-up.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Modal animation ───────────────────────────────────── */
+@keyframes modalScaleIn {
+  from { opacity: 0; transform: scale(0.96) translateY(8px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0);   }
+}
+@keyframes sheetSlideUp {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0);    }
+}
+.modal-enter {
+  animation: modalScaleIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@media (max-width: 767px) {
+  .modal-enter {
+    animation: sheetSlideUp 0.35s cubic-bezier(0.32, 0.72, 0, 1) forwards;
+  }
+}
+
+/* ─── Toast animation ───────────────────────────────────── */
+@keyframes toastSlideIn {
+  from { opacity: 0; transform: translateX(110%); }
+  to   { opacity: 1; transform: translateX(0);    }
+}
+.toast-slide-in {
+  animation: toastSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ─── Form controls on dark bg ──────────────────────────── */
+select, input[type="date"] {
+  color-scheme: dark;
+}
+select option {
+  background-color: #201f1f;
+  color: #e5e2e1;
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.7) sepia(0.3);
+  cursor: pointer;
+}
+

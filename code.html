@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="sk"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;0,900;1,400&amp;family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary-container": "#b8b9b4",
+              "tertiary": "#aad4ff",
+              "surface-tint": "#fdba49",
+              "surface-container-lowest": "#0e0e0e",
+              "on-surface-variant": "#d5c4af",
+              "on-primary-fixed-variant": "#614000",
+              "on-tertiary-fixed-variant": "#004a77",
+              "primary-fixed": "#ffddaf",
+              "on-secondary-fixed-variant": "#454744",
+              "on-primary-container": "#5f3f00",
+              "outline-variant": "#504535",
+              "tertiary-fixed": "#cee5ff",
+              "on-primary-fixed": "#281800",
+              "secondary-fixed-dim": "#c6c7c2",
+              "on-error": "#690005",
+              "inverse-surface": "#e5e2e1",
+              "inverse-primary": "#805600",
+              "surface-container-highest": "#353534",
+              "on-secondary-fixed": "#1a1c19",
+              "tertiary-container": "#6ebafe",
+              "secondary-fixed": "#e3e3de",
+              "on-surface": "#e5e2e1",
+              "surface": "#131313",
+              "surface-container-high": "#2a2a2a",
+              "outline": "#9d8e7c",
+              "error": "#ffb4ab",
+              "on-tertiary-fixed": "#001d33",
+              "surface-dim": "#131313",
+              "primary-container": "#e8a838",
+              "on-tertiary": "#003354",
+              "secondary": "#c6c7c2",
+              "error-container": "#93000a",
+              "on-background": "#e5e2e1",
+              "secondary-container": "#484a46",
+              "on-primary": "#432c00",
+              "on-error-container": "#ffdad6",
+              "surface-variant": "#353534",
+              "tertiary-fixed-dim": "#97cbff",
+              "surface-bright": "#3a3939",
+              "primary-fixed-dim": "#fdba49",
+              "primary": "#ffc66b",
+              "surface-container-low": "#1c1b1b",
+              "on-secondary": "#2f312e",
+              "inverse-on-surface": "#313030",
+              "background": "#131313",
+              "surface-container": "#201f1f",
+              "on-tertiary-container": "#004975"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif"],
+              "body": ["Space Grotesk"],
+              "label": ["Space Grotesk"]
+            },
+            borderRadius: {"DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #131313;
+            color: #e5e2e1;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .editorial-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+        }
+    </style>
+</head>
+<body class="antialiased overflow-x-hidden">
+<!-- TopNavBar -->
+<nav class="bg-[#131313]/80 backdrop-blur-md fixed top-0 w-full z-50 flex justify-between items-center px-8 py-6 w-full">
+<div class="font-['Noto_Serif'] text-2xl font-black tracking-tighter text-[#E5E2E1]">
+            LUXURY NOIR
+        </div>
+<div class="hidden md:flex gap-12 items-center">
+<a class="font-['Space_Grotesk'] uppercase tracking-widest text-xs text-[#E8A838] border-b border-[#E8A838] pb-1" href="#">Služby</a>
+<a class="font-['Space_Grotesk'] uppercase tracking-widest text-xs text-[#E5E2E1] hover:text-[#E8A838] transition-colors" href="#">Galéria</a>
+<a class="font-['Space_Grotesk'] uppercase tracking-widest text-xs text-[#E5E2E1] hover:text-[#E8A838] transition-colors" href="#">Tím</a>
+<a class="font-['Space_Grotesk'] uppercase tracking-widest text-xs text-[#E5E2E1] hover:text-[#E8A838] transition-colors" href="#">Kontakt</a>
+</div>
+<button class="bg-primary-container text-on-primary px-8 py-3 font-bold uppercase tracking-widest text-xs active:scale-95 transition-all">
+            REZERVOVAŤ
+        </button>
+</nav>
+<!-- Hero Section -->
+<section class="relative h-screen w-full flex items-center justify-start overflow-hidden pt-20">
+<div class="absolute inset-0 z-0">
+<img alt="High contrast hair salon interior" class="w-full h-full object-cover grayscale opacity-50" data-alt="Dramatic high contrast black and white hair salon image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBt6yKLQIuO6A7wonHKncB6J5KwUyJt-4nN53HHsDj0skei24HlBxs1E_qCti2GzvGM9x_rJryPVXfgwITeIzPJg-4MM9UN4NadF228nr1SNeI_nYzgRdMJLA3mi1uK_Dr1ATsy1_BslkuYSnfpsF7vr8LZVJ1wOogP14bnb9XUSIuNgZtP6wV9nadTyjx6H8J7l3nTFg5KPBc5JJ46_rNNmKJEZS0ratqDlHbL39FGSPFgAzL_nC3BoOcOUf8TW_Id1IvCpGcFCH4"/>
+<div class="absolute inset-0 bg-gradient-to-r from-surface via-surface/40 to-transparent"></div>
+</div>
+<div class="relative z-10 px-8 md:px-24 max-w-4xl">
+<h1 class="font-headline text-6xl md:text-8xl font-black tracking-tighter mb-6 leading-none">
+                DEFINÍCIA <br/><span class="text-primary-container italic">DOKONALOSTI</span>
+</h1>
+<p class="font-body text-xl max-w-xl text-on-surface mb-10 leading-relaxed">
+                Prémiový kadernícky salón v centre Bratislavy, kde sa umenie stretáva s luxusom. Vaše vlasy sú naším plátnom.
+            </p>
+<div class="flex flex-col md:flex-row gap-4">
+<button class="bg-primary-container text-on-primary px-10 py-5 font-bold uppercase tracking-widest text-sm hover:brightness-110 transition-all shadow-[0_0_40px_rgba(232,168,56,0.2)]">
+                    OBJEDNAŤ SA ONLINE
+                </button>
+<button class="border border-outline/30 px-10 py-5 font-bold uppercase tracking-widest text-sm hover:bg-on-surface/5 transition-all">
+                    NAŠE PORTFÓLIO
+                </button>
+</div>
+</div>
+<div class="absolute bottom-12 right-12 hidden md:block">
+<div class="flex items-center gap-4 text-primary-container">
+<span class="font-body uppercase tracking-tighter text-xs">Scroll to explore</span>
+<div class="w-12 h-[1px] bg-primary-container"></div>
+</div>
+</div>
+</section>
+<!-- Social Proof Bar -->
+<div class="bg-primary-container py-4 overflow-hidden whitespace-nowrap">
+<div class="flex gap-20 items-center justify-center">
+<span class="text-on-primary font-body font-bold uppercase tracking-widest text-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">auto_awesome</span> 15 ROKOV SKÚSENOSTÍ
+            </span>
+<span class="text-on-primary font-body font-bold uppercase tracking-widest text-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">award_star</span> NAJLEPŠÍ SALÓN ROKA 2023
+            </span>
+<span class="text-on-primary font-body font-bold uppercase tracking-widest text-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">content_cut</span> EXKLUZÍVNA STAROSTLIVOSŤ
+            </span>
+<span class="text-on-primary font-body font-bold uppercase tracking-widest text-sm flex items-center gap-2 hidden lg:flex">
+<span class="material-symbols-outlined text-sm">verified</span> CERTIFIKOVANÝ TÍM
+            </span>
+</div>
+</div>
+<!-- Services Grid -->
+<section class="bg-surface py-32 px-8">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
+<div>
+<span class="text-primary-container font-body uppercase tracking-[0.3em] text-xs block mb-4">Umenie strihu</span>
+<h2 class="font-headline text-5xl md:text-6xl font-bold tracking-tighter">Naše služby</h2>
+</div>
+<div class="max-w-md">
+<p class="font-body text-on-surface-variant leading-relaxed">
+                        Každá návšteva začína individuálnou konzultáciou. Používame výhradne prémiovú kozmetiku a najmodernejšie techniky.
+                    </p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-20 gap-x-12">
+<!-- Service 1 -->
+<div class="group border-b border-outline-variant/20 pb-10">
+<div class="aspect-[4/5] mb-8 overflow-hidden">
+<img alt="Dámsky strih" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" data-alt="High fashion female haircut detail" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCb7YGdWR3vz2TDVG8I-pUBNgKzoG4m90upbd0iC2KBkmMYkVTv1xXlgzgvmWra8uuoaVCxjcOUGy1XYPh6rN52yTjvZYOOnc9wug8ZUBRMD_jDLJheuQ8XOGAtka4ZMG42z9FGUIYwHuZHJwF-2SVWQI7Ap5FmyxsHfQhmMU8Ii0ojJxcFru_VLHHlUsUIMlNbfLUPnWDciz3CTkFND4mUcexL7sZvs9nG1qgTPzACt_ipDfMSPiR8NPrQjItd7_Ow9gSr8v7Tgx0"/>
+</div>
+<div class="flex justify-between items-start">
+<h3 class="font-headline text-2xl font-bold">Dámsky strih &amp; Styling</h3>
+<span class="text-primary-container font-body font-bold">od 45€</span>
+</div>
+<p class="font-body text-on-surface-variant mt-4 text-sm leading-relaxed">
+                        Konzultácia, umývanie, relaxačná masáž hlavy, strih, fúkaná a styling podľa vašich predstáv.
+                    </p>
+</div>
+<!-- Service 2 -->
+<div class="group border-b border-outline-variant/20 pb-10">
+<div class="aspect-[4/5] mb-8 overflow-hidden">
+<img alt="Farbenie Balayage" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" data-alt="Hair colorist working on blonde balayage" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEG7HSDL3_POUGe-mIZOGfXgCrFNqvjDlgggk0vyY-z1m11Srk3ZRNxpvIwh6jni2VH0wsEY0nuo-gVlnpGP6ht1tWcFHSBsIbgOcAtxnm_gv96ZtgskSoAQt5cypRNScw1Dn49cbklyLBjx_HP3ybKtw6VEp9abXf9I_mPKwAvbvFtEShZ1uOqT-eUW8KBsM7cPMTrddwzi2wIuwe5RGE5Qx0QB1Gh7udeg8xLLKjCWxTgnJIQGxrRz8ocGFMPk2-1kjEqnGL_-8"/>
+</div>
+<div class="flex justify-between items-start">
+<h3 class="font-headline text-2xl font-bold">Balayage &amp; Ombre</h3>
+<span class="text-primary-container font-body font-bold">od 120€</span>
+</div>
+<p class="font-body text-on-surface-variant mt-4 text-sm leading-relaxed">
+                        Umelecké presvetlenie vlasov s prirodzeným prechodom pre hĺbku a rozmer vášho účesu.
+                    </p>
+</div>
+<!-- Service 3 -->
+<div class="group border-b border-outline-variant/20 pb-10">
+<div class="aspect-[4/5] mb-8 overflow-hidden">
+<img alt="Pánsky strih" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" data-alt="Classic barber haircut sharp details" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-uT3pTqjEatRR6znqZup4SoayVoUGGEiNDq_qEutlcD3QqLo5jCxOVmYCfodPHcnKdQvhz_xFagz7c94QjZAziwZjUux3jMFy7N65aKk8AxWn425bR7mxrqlnv0ZPrGn-N4RVKuwfuN7PJUkFGYwL0gMLnwOJ8XP720Hd1UqvNt-3fV5D-XZ72U7Eg7maI19yKskboKBDZUzaPkx38gC-2fesOymukX5ExgOYYJu2gOOGnxh4TUkFMhiBgcWNaticgqkwYcOnsnQ"/>
+</div>
+<div class="flex justify-between items-start">
+<h3 class="font-headline text-2xl font-bold">Pánsky Barber Strih</h3>
+<span class="text-primary-container font-body font-bold">od 35€</span>
+</div>
+<p class="font-body text-on-surface-variant mt-4 text-sm leading-relaxed">
+                        Precízny strih, úprava kontúr, styling a poradenstvo pre moderného džentlmena.
+                    </p>
+</div>
+<!-- Service 4 -->
+<div class="group border-b border-outline-variant/20 pb-10">
+<div class="aspect-[4/5] mb-8 overflow-hidden">
+<img alt="Kúry na vlasy" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" data-alt="Hair treatment process close up" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxCPDnuhkpF0QzMJSrDz-kprn0ZT97_AWkZoyhUL-h8MdfbuP95UCTS0Gmpma8dMyMfTsx5z3Nos_jlb8PjTCw7CTtmPWC0VwUI_aJrMvmU9SyWFVzUY06CM-_xDaWkrZulql9BDg3nf8b9wJPc5twjQwBP-onWms9IbwKgTSNOj4vkvez2U4fqjKNwhJclN00H0lksD7FdD5oBvdJBRX4f8A2jU3kSdIY6-j2cDgTPL4qeZTbgNav3r3yxXOu0PU-YMV8jyQKpHM"/>
+</div>
+<div class="flex justify-between items-start">
+<h3 class="font-headline text-2xl font-bold">Olaplex Kúra</h3>
+<span class="text-primary-container font-body font-bold">od 30€</span>
+</div>
+<p class="font-body text-on-surface-variant mt-4 text-sm leading-relaxed">
+                        Intenzívna obnova väzieb vo vlasovom vlákne pre maximálne zdravie a lesk vašich vlasov.
+                    </p>
+</div>
+<!-- Service 5 -->
+<div class="group border-b border-outline-variant/20 pb-10">
+<div class="aspect-[4/5] mb-8 overflow-hidden">
+<img alt="Svadobné účesy" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" data-alt="Elegant bridal hair updo style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRnUo-v21YdwijruA0icnEP6mU97SskPR2mUPYsca9Iru8T10sSUP76X1HpkcwjmqNbbpn3NbpGaM5atfwbqlcwBKGOE9enV9MYPNn9Edx3H6AAt0UoHtbf7EYaFTvbp4BrU6pkk8voEg2q4yf8qlak2EYOgA07D9JXhBFzJxNX7pfA8x5ym2qYjdBTVMF3tfbvJ9C_XgBVxH_DCjJol5MOejg59RKbc4xGnlZHDM8PuqPepEg-XeoVspCWIIFnIJmhTTKrdWMBZY"/>
+</div>
+<div class="flex justify-between items-start">
+<h3 class="font-headline text-2xl font-bold">Svadobný Styling</h3>
+<span class="text-primary-container font-body font-bold">individuálne</span>
+</div>
+<p class="font-body text-on-surface-variant mt-4 text-sm leading-relaxed">
+                        Tvorba luxusného svadobného účesu vrátane skúšky pre váš najdôležitejší deň.
+                    </p>
+</div>
+<!-- Service 6 -->
+<div class="group border-b border-outline-variant/20 pb-10">
+<div class="aspect-[4/5] mb-8 overflow-hidden">
+<img alt="Make up" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" data-alt="Luxury makeup brush application" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDeZjRFKlf3paFLb4TzLrVc8jgy3Q1FtJlrrXIdrQBKkqxszsktM_nf8bCbCSm7ermMRMklLL1oMwpepkykFdQTzSXPUlTUybk9-BdFvQ87IbfiTxFli3WUOlqrlKbsAjNZQ9FjsZWgEfdIvD5dYlZ_L0cyTmk5OptMxZTb-L7v8dgOUB_fGnNt0HKGG6hFp8xm7qiuBIJ0_IFSHa15uz0-iZiaVmqtrQHjf_bVLSGlkwoQO4t42v21YKrRnCpR8U-EDQoEi-0335M"/>
+</div>
+<div class="flex justify-between items-start">
+<h3 class="font-headline text-2xl font-bold">Profesionálny Make-up</h3>
+<span class="text-primary-container font-body font-bold">od 50€</span>
+</div>
+<p class="font-body text-on-surface-variant mt-4 text-sm leading-relaxed">
+                        Denné, večerné alebo foto-líčenie, ktoré podčiarkne vašu prirodzenú krásu.
+                    </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Why Us Section -->
+<section class="bg-surface-container-lowest py-32 px-8">
+<div class="max-w-7xl mx-auto">
+<h2 class="font-headline text-center text-4xl md:text-5xl font-bold mb-20 tracking-tighter">Prečo si vybrať nás?</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-16">
+<div class="text-center group">
+<div class="mb-8 inline-block">
+<span class="material-symbols-outlined text-6xl text-primary-container group-hover:scale-110 transition-transform duration-500">eco</span>
+</div>
+<h3 class="font-headline text-2xl font-bold mb-4">Vegan-Friendly Kozmetika</h3>
+<p class="font-body text-on-surface-variant leading-relaxed">
+                        Pracujeme výhradne s produktmi, ktoré sú šetrné k prírode aj k vašim vlasom, bez obsahu škodlivých látok.
+                    </p>
+</div>
+<div class="text-center group">
+<div class="mb-8 inline-block">
+<span class="material-symbols-outlined text-6xl text-primary-container group-hover:scale-110 transition-transform duration-500">architecture</span>
+</div>
+<h3 class="font-headline text-2xl font-bold mb-4">Individuálny Prístup</h3>
+<p class="font-body text-on-surface-variant leading-relaxed">
+                        Každý strih je navrhnutý podľa tvaru tváre, typu vlasov a vášho životného štýlu pre maximálnu spokojnosť.
+                    </p>
+</div>
+<div class="text-center group">
+<div class="mb-8 inline-block">
+<span class="material-symbols-outlined text-6xl text-primary-container group-hover:scale-110 transition-transform duration-500">liquor</span>
+</div>
+<h3 class="font-headline text-2xl font-bold mb-4">Atmosféra &amp; Relax</h3>
+<p class="font-body text-on-surface-variant leading-relaxed">
+                        Užite si prémiovú kávu, selekciu vín alebo prosecco v našom dizajnovom prostredí počas vašej premeny.
+                    </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Portfolio Grid (Asymmetric Masonry) -->
+<section class="bg-surface py-32 px-4 md:px-8">
+<div class="max-w-screen-2xl mx-auto">
+<div class="mb-20 px-4">
+<h2 class="font-headline text-5xl md:text-7xl font-bold tracking-tighter">Naša <br/><span class="italic text-primary-container">Práca</span></h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[300px]">
+<div class="md:col-span-2 md:row-span-2 overflow-hidden bg-surface-container">
+<img alt="Portfolio item" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" data-alt="Dramatic high contrast black hair portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3Sx9nFxLL0AdWF_ITDJMV-XKjH-2QhKErcIHQHUyhjiOzJcQlN1PDfQX_ppKhFIuPsplauUzbgpWbVmL5Wo4vHXcaDq2I9IVNqWwRihI4rHnXmmYMss2FmUBnS6jKsMcPuZpFDYDL4NfAInW8wTHUI_43JfwKJw-sRD3G6q67yRvP0Fu_EIFiQ8q4AUCIsxbLHenqbz34tYhugTUpby7onLXS_7NJR2OSjO1R-TWC9X2hS1jp4kdQY_Gw7x2Pd6GKXt_rpHU0a7g"/>
+</div>
+<div class="md:col-span-1 md:row-span-1 overflow-hidden bg-surface-container">
+<img alt="Portfolio item" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" data-alt="Artistic hair styling silhouette" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_lYCGh-7IN9c2oyGUmCXhUawK3qknmCaAxfogQlA5qmf8jd3k6liHtDBpdtaqoVcGw6d7lf_v0xpJ1aQF9_nQzmO7lNiSmyzGC1m6skM93fvut4pnuiNYTQkhys_4TVwE_vsXOufyayeOp6GcfYir4SsKii8capnxTGUY_h3vopJIFbPOLTnMqMeH1sf3OAvZipdfHhzC4CwGtuUKxDMJfodi1jp2pxU0FBRTv_EeKFZMr5mHoql5NclkGUpl1J_etUBvaOXp1iw"/>
+</div>
+<div class="md:col-span-1 md:row-span-2 overflow-hidden bg-surface-container">
+<img alt="Portfolio item" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" data-alt="Intense close up of hair texture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrVYr01RSxVvumRZ2MtEhgpLyjvmsyAFzouDcQOUJSb6fZX2yZZ89TxkfGJnPU4obGTbPJMfyle9x7q7Vvm18dV5uFNBReVFIBzpkTAbCyYejvRX9LJmIdSC2BS1_ngsfRb8nnUE1O5eva-jDOwb1V-THmEmFd7pUS7t6KkMmUN0zY4jgqJJ2ipcQfKFoAye9hTuzRL6A3FdUtlYxNOI5T6ywokhj5ygUjugxv70ilqZW6Sax8btYTIKnJBPxPXERRr0bfmZz3obw"/>
+</div>
+<div class="md:col-span-1 md:row-span-2 overflow-hidden bg-surface-container">
+<img alt="Portfolio item" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" data-alt="Edgy high fashion haircut profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjBuSebE6eeek0BJRiyURiIAHV4fyQYIvlVGvdNuZxpOGSw1wjyzAoN1LIE31pdRLOFvctyAmVOwHaA_wR0Py4t_qmw_aWYPajOC-mHbcIiBTFRCQYucpw8Bzreu6-cn4YdFGawoYMS2UoY_fHQbD5dpiiC2lGadtQWpL0iBVWuD5AF7u4t2k92Mf6Ib0N5dSC0GeCJCcO8HrSCeLZf4_DXfM1KN6Brt_ylkpDgtWROuIBGxY9x19OolLG9Wq6Q5xYPgVzVmSp-YE"/>
+</div>
+<div class="md:col-span-2 md:row-span-1 overflow-hidden bg-surface-container">
+<img alt="Portfolio item" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" data-alt="Wide shot of sleek modern hair design" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYCHCemwfdbeM2jOs6-q1GwZULMPukrpl8Tk1bH-Z2FCmXGHC5EuFQP2iHKwIviIA5R6ijgSw5pvVSJn92Jvdp4j4ZTF72CQSfE3oxwhyuuYtGQxGaz9oupWyADqB9WGlqXdqxUZvH7-mry1aWHfi7YgldDv_vb5-0QI3kJ0jTQtoIjQnKHz_jxzLoKN9QHRSyytqRsNyi0MQy8paosIua-09cu4HSoy8z4_wusFCSkqyXMQ6tm1Mymq7C5dvN1myiFb88TRV7sBs"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Team Section -->
+<section class="bg-surface-container-low py-32 px-8">
+<div class="max-w-7xl mx-auto">
+<div class="text-center mb-24">
+<span class="text-primary-container font-body uppercase tracking-[0.3em] text-xs block mb-4">Majstri svojho remesla</span>
+<h2 class="font-headline text-5xl md:text-6xl font-bold tracking-tighter">Náš tím</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-20">
+<!-- Team Member 1 -->
+<div class="relative group text-center">
+<div class="w-64 h-64 mx-auto mb-8 rounded-full overflow-hidden border-2 border-primary-container/20 group-hover:border-primary-container transition-all duration-500">
+<img alt="Alexandra Noir" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" data-alt="Portrait of senior hair stylist woman" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPStajcCrfLgUMZxPkj74wiu5CUH2hfh8umMhhXu_0Zr0ZVdDdu1LNivWblRkG8-8agH5thIKtaqYY1SyTELbUPbiRVN_MuiLaGGxM8nQpRuWU-TLz26L2ezuATf80b6YHA0i0V85-PexsltmdKMWZ_HL5-_aPCNP7PGe5f-apT2hud83ykO52BH2An_vonxnnZ7QpuKDFPQIbwubMNEPKf7q6aP8_fNrYgKNIBaIpVdQy8g8CvWxkfcgB97Paye2CK97z296q324"/>
+</div>
+<div class="relative">
+<h3 class="font-headline text-2xl font-bold mb-2">Alexandra Noir</h3>
+<p class="font-body text-primary-container uppercase tracking-widest text-xs font-bold">Creative Director / Senior Stylist</p>
+</div>
+</div>
+<!-- Team Member 2 -->
+<div class="relative group text-center">
+<div class="w-64 h-64 mx-auto mb-8 rounded-full overflow-hidden border-2 border-primary-container/20 group-hover:border-primary-container transition-all duration-500">
+<img alt="Erik Silver" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" data-alt="Portrait of professional male barber" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDg94Ed9C2ag62Xf-M8lViWgAgEzWH5i2WC-3NyAJh43b1JEMzfynvf_TKET6D-04mHZk9SZF3qiZahE7GStqTMR61z778z1sVSardD5T8U1N0PkEpVHI_5dB46BJeBbcjQgG4ho-ku8CoKdxIqerR4TqQdicXQyDs-LZcdnJKcYvCEDrBZxpR3-9QU1qSnnpa2BkgUoOtqA0wSmnEqp406eIDJOW2dkWX3r2YiYcVWXaxKbuif4HY5JEZ1-z8defkR-1FkixCiWMg"/>
+</div>
+<div class="relative">
+<h3 class="font-headline text-2xl font-bold mb-2">Erik Silver</h3>
+<p class="font-body text-primary-container uppercase tracking-widest text-xs font-bold">Master Barber</p>
+</div>
+</div>
+<!-- Team Member 3 -->
+<div class="relative group text-center">
+<div class="w-64 h-64 mx-auto mb-8 rounded-full overflow-hidden border-2 border-primary-container/20 group-hover:border-primary-container transition-all duration-500">
+<img alt="Marta Gold" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" data-alt="Portrait of professional female colorist" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-qksEM5BXyAcbaJlpNXS4X_8eIIlxwJpM2iiOXjkKPgSxm6BFJFVjTpnLTvd7QUsrQ-bTbG5xSbcxgNrNFpug9Ac43FieBqvqQYnxWsLSMDEe4fi-O9aaqDjJllOvsRNPA8RnNIFkHaxBwntStL1F1ChxkT3I01IpY34e7qH1U_Vqz7G5FydJIMsuAXVxnJIq4TBMWUxr5EbATtybyXk3lYeQy9MLHzqi9EuPl-5w4PZu8qpb_RDL7qVEWZREDvXUDO3f69R6-tU"/>
+</div>
+<div class="relative">
+<h3 class="font-headline text-2xl font-bold mb-2">Marta Gold</h3>
+<p class="font-body text-primary-container uppercase tracking-widest text-xs font-bold">Senior Color Expert</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Review Carousel -->
+<section class="bg-surface py-32 overflow-hidden">
+<div class="px-8 max-w-7xl mx-auto mb-16">
+<h2 class="font-headline text-4xl font-bold tracking-tighter">Povedali o nás</h2>
+</div>
+<div class="flex gap-8 px-8 overflow-x-auto pb-8 snap-x no-scrollbar">
+<!-- Review 1 -->
+<div class="min-w-[350px] md:min-w-[450px] bg-surface-container-high p-12 snap-center">
+<div class="flex text-primary-container mb-6">
+<span class="material-symbols-outlined fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined fill" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="font-headline italic text-xl leading-relaxed mb-8">
+                    "Absolútne najlepšia skúsenosť v Bratislave. Alexandra presne pochopila moju predstavu o novom strihu. Prostredie salónu je úchvatné."
+                </p>
+<div class="font-body text-xs uppercase tracking-[0.2em] font-bold text-on-surface-variant">
+                    — Katarína M.
+                </div>
+</div>
+<!-- Review 2 -->
+<div class="min-w-[350px] md:min-w-[450px] bg-surface-container-high p-12 snap-center">
+<div class="flex text-primary-container mb-6">
+<span class="material-symbols-outlined fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined fill" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="font-headline italic text-xl leading-relaxed mb-8">
+                    "Erik je majster svojho remesla. Barber služby na svetovej úrovni. Odchádzal som oddýchnutý a maximálne spokojný."
+                </p>
+<div class="font-body text-xs uppercase tracking-[0.2em] font-bold text-on-surface-variant">
+                    — Peter D.
+                </div>
+</div>
+<!-- Review 3 -->
+<div class="min-w-[350px] md:min-w-[450px] bg-surface-container-high p-12 snap-center">
+<div class="flex text-primary-container mb-6">
+<span class="material-symbols-outlined fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined fill" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="font-headline italic text-xl leading-relaxed mb-8">
+                    "Hľadala som experta na balayage a konečne som našla Martu. Výsledok predčil moje očakávania. Farba vyzerá luxusne."
+                </p>
+<div class="font-body text-xs uppercase tracking-[0.2em] font-bold text-on-surface-variant">
+                    — Lucia S.
+                </div>
+</div>
+</div>
+</section>
+<!-- CTA Banner -->
+<section class="bg-primary-container py-24 px-8 text-center">
+<div class="max-w-4xl mx-auto">
+<h2 class="font-headline text-5xl md:text-7xl font-bold text-[#0E0E0E] tracking-tighter mb-10 leading-none">
+                Ste pripravení na svoju <span class="italic underline decoration-1 underline-offset-8">premenu?</span>
+</h2>
+<div class="flex flex-col md:flex-row justify-center gap-6">
+<button class="bg-[#0E0E0E] text-white px-12 py-6 font-bold uppercase tracking-widest text-sm hover:opacity-90 transition-all">
+                    REZERVOVAŤ TERMÍN
+                </button>
+<button class="border-2 border-[#0E0E0E] text-[#0E0E0E] px-12 py-6 font-bold uppercase tracking-widest text-sm hover:bg-[#0E0E0E] hover:text-white transition-all">
+                    KONTAKTOVAŤ NÁS
+                </button>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-[#0E0E0E] w-full border-t border-[#1C1B1B]">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12 px-12 py-20 max-w-full">
+<!-- Col 1 -->
+<div>
+<div class="font-['Noto_Serif'] text-lg font-bold text-[#E5E2E1] mb-8">LUXURY NOIR</div>
+<p class="font-['Space_Grotesk'] text-sm tracking-wide text-[#E5E2E1] leading-loose opacity-70">
+                    Sme hrdí na to, že prinášame svetový štandard vlasovej starostlivosti do Bratislavy. Naša vášeň pre detail definuje váš štýl.
+                </p>
+<div class="mt-8 flex gap-6">
+<span class="material-symbols-outlined text-[#E8A838]">social_leaderboard</span>
+<span class="material-symbols-outlined text-[#E8A838]">camera_enhance</span>
+<span class="material-symbols-outlined text-[#E8A838]">smart_display</span>
+</div>
+</div>
+<!-- Col 2 -->
+<div>
+<h4 class="font-['Noto_Serif'] text-xl text-[#E8A838] mb-8">Otváracie hodiny</h4>
+<div class="font-['Space_Grotesk'] text-sm tracking-wide text-[#E5E2E1] space-y-4">
+<div class="flex justify-between border-b border-outline-variant/10 pb-2">
+<span>Pondelok - Piatok</span>
+<span class="text-white">09:00 - 20:00</span>
+</div>
+<div class="flex justify-between border-b border-outline-variant/10 pb-2">
+<span>Sobota</span>
+<span class="text-white">10:00 - 18:00</span>
+</div>
+<div class="flex justify-between">
+<span>Nedeľa</span>
+<span class="text-[#E8A838]">Zatvorené</span>
+</div>
+</div>
+</div>
+<!-- Col 3 -->
+<div>
+<h4 class="font-['Noto_Serif'] text-xl text-[#E8A838] mb-8">Adresa</h4>
+<div class="font-['Space_Grotesk'] text-sm tracking-wide text-[#E5E2E1] space-y-4">
+<p class="flex items-center gap-3">
+<span class="material-symbols-outlined text-xs">location_on</span>
+                        Hviezdoslavovo nám. 25, 811 02 Bratislava
+                    </p>
+<p class="flex items-center gap-3">
+<span class="material-symbols-outlined text-xs">call</span>
+                        +421 900 123 456
+                    </p>
+<p class="flex items-center gap-3">
+<span class="material-symbols-outlined text-xs">mail</span>
+                        info@luxurynoir.sk
+                    </p>
+</div>
+</div>
+</div>
+<div class="px-12 py-8 border-t border-[#1C1B1B] flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="font-['Space_Grotesk'] text-[10px] uppercase tracking-[0.3em] text-[#E5E2E1] opacity-50">
+                © 2024 LUXURY NOIR. VŠETKY PRÁVA VYHRADENÉ.
+            </p>
+<div class="flex gap-8">
+<a class="font-['Space_Grotesk'] text-[10px] uppercase tracking-[0.2em] text-[#E5E2E1] hover:text-[#E8A838] transition-colors" href="#">GDPR</a>
+<a class="font-['Space_Grotesk'] text-[10px] uppercase tracking-[0.2em] text-[#E5E2E1] hover:text-[#E8A838] transition-colors" href="#">Obchodné podmienky</a>
+</div>
+</div>
+</footer>
+</body></html>

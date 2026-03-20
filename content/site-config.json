@@ -1,0 +1,161 @@
+{
+  "business": {
+    "name": "Bella Studio",
+    "tagline": "Vaše vlasy si zaslúžia to najlepšie",
+    "description": "Prémiový kadernícky salón v centre Bratislavy, kde sa umenie stretáva s luxusom. Vaše vlasy sú naším plátnom.",
+    "rating": 4.9,
+    "reviewCount": 156,
+    "contacts": {
+      "phone": "+421 950 504 171",
+      "whatsapp": "+421 950 504 171",
+      "email": "info@bellastudio.sk",
+      "address": "Obchodná 12, 811 06 Bratislava",
+      "instagram": "https://instagram.com/bellastudio.ba",
+      "facebook": "https://facebook.com/bellastudioba",
+      "google": "https://g.page/bellastudioba"
+    },
+    "hours": {
+      "monday_friday": "09:00 – 20:00",
+      "saturday": "09:00 – 14:00",
+      "sunday": "Zatvorené"
+    },
+    "booking": {
+      "webhookUrl": "https://n8n.nexvy.sk/webhook/bella-booking"
+    }
+  },
+  "nav": [
+    { "label": "Služby",  "href": "/sluzby" },
+    { "label": "Galéria", "href": "/galeria" },
+    { "label": "Tím",     "href": "/tym" },
+    { "label": "Kontakt", "href": "/kontakt" }
+  ],
+  "services": [
+    {
+      "id": "strihanie-styling",
+      "category": "Strihanie",
+      "title": "Strihanie a styling",
+      "price": "od €30",
+      "duration": "45 min",
+      "description": "Precízny strih podľa vašich predstáv.",
+      "image": "/images/service-strihanie.jpg"
+    },
+    {
+      "id": "farbenie",
+      "category": "Farbenie",
+      "title": "Farbenie vlasov",
+      "price": "od €55",
+      "duration": "90 min",
+      "description": "Profesionálne farbenie s prémiovými produktmi.",
+      "image": "/images/service-farbenie.jpg"
+    },
+    {
+      "id": "melir-balayage",
+      "category": "Balayage",
+      "title": "Melír & Balayage",
+      "price": "od €75",
+      "duration": "120 min",
+      "description": "Prirodzený efekt slnkom bozkávaných vlasov.",
+      "image": "/images/service-balayage.jpg"
+    },
+    {
+      "id": "keratin",
+      "category": "Ošetrenie",
+      "title": "Keratínová regenerácia",
+      "price": "€45",
+      "duration": "60 min",
+      "description": "Intenzívna obnova poškodených vlasov.",
+      "image": "/images/service-keratin.jpg"
+    },
+    {
+      "id": "svadobne-ucesy",
+      "category": "Špeciálne",
+      "title": "Svadobné účesy",
+      "price": "od €80",
+      "duration": "90 min",
+      "description": "Váš dokonalý deň si zaslúži dokonalý účes.",
+      "image": "/images/service-svadba.jpg"
+    },
+    {
+      "id": "detske-strihanie",
+      "category": "Strihanie",
+      "title": "Detské strihanie",
+      "price": "€15",
+      "duration": "30 min",
+      "description": "Jemný prístup pre najmenších.",
+      "image": "/images/service-deti.jpg"
+    }
+  ],
+  "team": [
+    {
+      "id": "jana",
+      "name": "Jana Kováčová",
+      "role": "Špecialista na balayage",
+      "experience": "8 rokov skúseností",
+      "bio": "Jana začala svoju kariéru v popredných bratislavských salónoch a dnes je jednou z najvyhľadávanejších špecialistiek na balayage a melír na Slovensku. Jej cit pre farbu, precíznosť a prístup šitý na mieru každému klientovi z nej robia umelkyňu v pravom slova zmysle.",
+      "specialties": ["Balayage", "Melír", "Farbenie"],
+      "image": "/images/team-jana.jpg"
+    },
+    {
+      "id": "marek",
+      "name": "Marek Novák",
+      "role": "Barber & pánske strihy",
+      "experience": "5 rokov skúseností",
+      "bio": "Marek je vášnivý barber s okom pre detail a zmyslom pre klasickú eleganciu. Počas svojej kariéry absolvoval školenia u popredných európskych barber majstrov a špeciálne sa venuje precíznym kontúram, klasickým pánskym strihom a úprave brady.",
+      "specialties": ["Pánske strihy", "Barber", "Úprava brady"],
+      "image": "/images/team-marek.jpg"
+    },
+    {
+      "id": "lucia",
+      "name": "Lucia Tóthová",
+      "role": "Farbenie & regenerácia",
+      "experience": "10 rokov skúseností",
+      "bio": "Lucia sa špecializuje na zdravie vlasov a pokročilé techniky farbenia. S viac ako 10 rokmi skúseností a certifikátmi Wella a Olaplex vie presne, ako obnoviť aj najviac poškodené vlasy a vrátiť im lesk a vitalitu, ktorú si zaslúžia.",
+      "specialties": ["Farbenie", "Keratín", "Olaplex"],
+      "image": "/images/team-lucia.jpg"
+    }
+  ],
+  "reviews": [
+    {
+      "author": "Martina K.",
+      "rating": 5,
+      "text": "Najlepšie kaderníctvo v Bratislave! Jana je úžasná, vždy presne vie, čo chcem."
+    },
+    {
+      "author": "Peter S.",
+      "rating": 5,
+      "text": "Konečne poriadny barber. Marek rozumie svojmu remeslu."
+    },
+    {
+      "author": "Zuzana M.",
+      "rating": 5,
+      "text": "Balayage od Jany je presne to, čo som chcela. Vrátim sa určite!"
+    },
+    {
+      "author": "Tomáš H.",
+      "rating": 4,
+      "text": "Profesionálny prístup, príjemné prostredie. Odporúčam."
+    },
+    {
+      "author": "Eva R.",
+      "rating": 5,
+      "text": "Po rokoch hľadania som konečne našla MOJE kaderníctvo. Ďakujem!"
+    }
+  ],
+  "whyUs": [
+    {
+      "icon": "Bot",
+      "title": "AI recepčná 24/7",
+      "description": "Naša AI recepčná odpovedá na otázky klientov a prijíma rezervácie nepretržite — aj keď ste mimo salónu."
+    },
+    {
+      "icon": "CalendarCheck",
+      "title": "Online rezervácia",
+      "description": "Klienti si môžu rezervovať termín kedykoľvek online — bez telefonátov, bez čakania, 24 hodín denne."
+    },
+    {
+      "icon": "MessageCircle",
+      "title": "WhatsApp pripomienky",
+      "description": "Automatické pripomienky cez WhatsApp znižujú počet zmeškaných termínov a šetria váš čas."
+    }
+  ]
+}
