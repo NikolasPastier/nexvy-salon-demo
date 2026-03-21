@@ -38,16 +38,21 @@ export async function POST(request: NextRequest) {
     const { messages } = await request.json()
 
     const model = genAI.getGenerativeModel({
-      model: 'gemini-1.5-flash',
+      model: 'gemini-2.0-flash',
       systemInstruction: SYSTEM_PROMPT
     })
 
-    // Convert messages to Gemini format
-    // Gemini uses 'model' instead of 'assistant' for AI messages
-    const history = messages.slice(0, -1).map((m: { role: string; content: string }) => ({
-      role: m.role === 'assistant' ? 'model' : 'user',
-      parts: [{ text: m.content }]
-    }))
+    // Convert messages to Gemini format (uses 'model' instead of 'assistant')
+    // Skip messages until we hit the first 'user' message — Gemini requires
+    // history to start with 'user', so we drop any leading assistant greeting.
+    const allPrior: { role: string; content: string }[] = messages.slice(0, -1)
+    const firstUserIdx = allPrior.findIndex((m) => m.role === 'user')
+    const history = (firstUserIdx === -1 ? [] : allPrior.slice(firstUserIdx)).map(
+      (m) => ({
+        role: m.role === 'assistant' ? 'model' : 'user',
+        parts: [{ text: m.content }]
+      })
+    )
 
     const chat = model.startChat({ history })
 
@@ -57,9 +62,10 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ message: text })
   } catch (error) {
-    console.error('Gemini API error:', error)
+    console.error('Gemini error:', JSON.stringify(error, null, 2))
+    const errorMessage = error instanceof Error ? error.message : JSON.stringify(error)
     return NextResponse.json(
-      { message: 'Ospravedlňujem sa, nastala chyba. Zavolajte nám na +421 950 504 171.' },
+      { message: `Ospravedlňujem sa, nastala chyba. Zavolajte nám na +421 950 504 171. (${errorMessage})` },
       { status: 500 }
     )
   }
