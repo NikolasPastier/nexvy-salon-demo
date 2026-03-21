@@ -17,14 +17,33 @@ export function ChatWidget() {
   ])
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [showQuickReplies, setShowQuickReplies] = useState(true)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
+  const sendQuickReply = (text: string) => {
+    setShowQuickReplies(false)
+    const userMessage = { role: 'user' as const, content: text }
+    const newMessages = [...messages, userMessage]
+    setMessages(newMessages)
+    setIsLoading(true)
+    fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: newMessages.map(m => ({ role: m.role, content: m.content })) })
+    })
+      .then(r => r.json())
+      .then(data => setMessages(prev => [...prev, { role: 'assistant', content: data.message }]))
+      .catch(() => setMessages(prev => [...prev, { role: 'assistant', content: 'Ospravedlňujem sa, nastala chyba. Zavolajte nám na +421 950 504 171.' }]))
+      .finally(() => setIsLoading(false))
+  }
+
   const sendMessage = async () => {
     if (!input.trim() || isLoading) return
+    setShowQuickReplies(false)
 
     const userMessage = { role: 'user' as const, content: input }
     const newMessages = [...messages, userMessage]
@@ -172,6 +191,38 @@ export function ChatWidget() {
                 </div>
               </div>
             ))}
+            {showQuickReplies && (
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', padding: '4px 0 8px' }}>
+                {['Aké sú vaše ceny?', 'Ako sa objednať?', 'Aké služby ponúkate?', 'Kedy ste otvorení?'].map(q => (
+                  <button
+                    key={q}
+                    onClick={() => sendQuickReply(q)}
+                    style={{
+                      padding: '7px 14px',
+                      borderRadius: '9999px',
+                      border: '1px solid rgba(200,146,42,0.3)',
+                      background: 'rgba(200,146,42,0.06)',
+                      color: '#C8922A',
+                      fontFamily: "'DM Sans', sans-serif",
+                      fontSize: '12px',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s',
+                      whiteSpace: 'nowrap'
+                    }}
+                    onMouseEnter={e => {
+                      e.currentTarget.style.background = 'rgba(200,146,42,0.15)'
+                      e.currentTarget.style.borderColor = '#C8922A'
+                    }}
+                    onMouseLeave={e => {
+                      e.currentTarget.style.background = 'rgba(200,146,42,0.06)'
+                      e.currentTarget.style.borderColor = 'rgba(200,146,42,0.3)'
+                    }}
+                  >
+                    {q}
+                  </button>
+                ))}
+              </div>
+            )}
             {isLoading && (
               <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
                 <div style={{
