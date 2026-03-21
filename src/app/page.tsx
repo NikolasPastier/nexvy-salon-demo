@@ -9,6 +9,7 @@ import { BellaTestimonials } from "@/components/blocks/testimonials-bella";
 import { BellaCTA } from "@/components/blocks/cta-bella";
 import { BellaFooter } from "@/components/blocks/footer-bella";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import { ChatWidget } from "@/components/ui/chat-widget";
 
 export default function HomePage() {
   return (
@@ -26,6 +27,7 @@ export default function HomePage() {
       </main>
       <BellaFooter />
       <WhatsAppButton />
+      <ChatWidget />
     </>
   );
 }
