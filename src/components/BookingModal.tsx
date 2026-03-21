@@ -1,124 +1,199 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
-import { X, Loader2, CheckCircle, AlertCircle, User } from "lucide-react";
+import { useState, useEffect, useRef, useCallback } from "react";
+import {
+  X,
+  User,
+  Phone,
+  Scissors,
+  Calendar,
+  Clock,
+  MessageSquare,
+  CheckCircle,
+  AlertCircle,
+} from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useBookingModal } from "@/context/BookingModalContext";
 import config from "../../content/site-config.json";
 
-// ─── Constants ────────────────────────────────────────────
-const TIME_SLOTS = [
-  "09:00", "10:00", "11:00", "12:00", "13:00",
-  "14:00", "15:00", "16:00", "17:00", "18:00", "19:00",
-];
+// ─── Toast ─────────────────────────────────────────────────
 
-const EMPTY_FORM = { name: "", phone: "", service: "", date: "", time: "", notes: "" };
-
-// ─── Sub-components ───────────────────────────────────────
-function Field({ label, htmlFor, children }: { label: string; htmlFor: string; children: React.ReactNode }) {
-  return (
-    <div>
-      <label htmlFor={htmlFor} className="font-label text-[10px] uppercase tracking-[0.2em] text-on-surface-variant block mb-2">
-        {label}
-      </label>
-      {children}
-    </div>
-  );
-}
-
-function ChevronIcon() {
-  return (
-    <svg className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant"
-      width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M6 9l6 6 6-6" />
-    </svg>
-  );
-}
-
-const fieldClass =
-  "w-full bg-transparent border-b border-outline-variant/30 py-3 font-body text-sm text-on-surface placeholder:text-on-surface/30 focus:outline-none focus:border-primary-container transition-colors duration-200";
-
-// ─── Toast ────────────────────────────────────────────────
 export function Toast() {
   const { toast } = useBookingModal();
   if (!toast) return null;
   const isSuccess = toast.type === "success";
   return (
-    <div className={[
-      "fixed top-4 right-4 md:top-6 md:right-6 z-[200]",
-      "max-w-sm w-[calc(100vw-2rem)] md:w-auto",
-      "px-5 py-4 flex items-start gap-3 toast-slide-in",
-      isSuccess ? "bg-primary-container text-on-primary" : "bg-error-container text-on-error-container",
-    ].join(" ")}>
-      {isSuccess
-        ? <CheckCircle size={18} className="shrink-0 mt-0.5" />
-        : <AlertCircle size={18} className="shrink-0 mt-0.5" />}
-      <p className="font-body text-sm leading-relaxed">{toast.message}</p>
+    <div
+      className="toast-slide-in"
+      style={{
+        position: "fixed",
+        top: 24,
+        right: 24,
+        zIndex: 2000,
+        maxWidth: 360,
+        padding: "16px 20px",
+        display: "flex",
+        alignItems: "flex-start",
+        gap: 12,
+        background: isSuccess ? "#C8922A" : "#93000a",
+        color: isSuccess ? "#0C0B09" : "#ffdad6",
+        fontFamily: "var(--font-dm-sans), 'DM Sans', sans-serif",
+        fontSize: 13,
+        fontWeight: 400,
+        borderRadius: "9999px",
+      }}
+    >
+      {isSuccess ? (
+        <CheckCircle size={16} style={{ flexShrink: 0, marginTop: 1 }} />
+      ) : (
+        <AlertCircle size={16} style={{ flexShrink: 0, marginTop: 1 }} />
+      )}
+      <p style={{ margin: 0, lineHeight: 1.55 }}>{toast.message}</p>
     </div>
   );
 }
 
-// ─── Main modal ───────────────────────────────────────────
+// ─── BookingModal ───────────────────────────────────────────
+
 export default function BookingModal() {
-  const { isOpen, initialServiceId, preferredStylist, closeModal, showToast } = useBookingModal();
-  const [form, setForm] = useState({ ...EMPTY_FORM });
+  const { isOpen, initialServiceId, preferredStylist, closeModal, showToast } =
+    useBookingModal();
+
+  const [focused, setFocused] = useState<string | null>(null);
+  const [values, setValues] = useState({
+    name: "",
+    phone: "",
+    service: "",
+    date: "",
+    time: "",
+    notes: "",
+  });
   const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
-  const tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  const minDate = tomorrow.toISOString().split("T")[0];
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const animRef = useRef<number>(0);
 
+  // Detect mobile
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 640);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  // Pre-fill service from context
   useEffect(() => {
     if (isOpen && initialServiceId) {
-      setForm((f) => ({ ...f, service: initialServiceId }));
+      setValues((v) => ({ ...v, service: initialServiceId }));
     }
   }, [isOpen, initialServiceId]);
 
+  // Lock body scroll
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
+  // Keyboard close
   const handleKey = useCallback(
-    (e: KeyboardEvent) => { if (e.key === "Escape") closeModal(); },
+    (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeModal();
+    },
     [closeModal]
   );
   useEffect(() => {
-    if (!isOpen) return;
-    document.addEventListener("keydown", handleKey);
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", handleKey);
-      document.body.style.overflow = "";
-    };
+    if (isOpen) document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
   }, [isOpen, handleKey]);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
-  ) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+  // Particle canvas
+  useEffect(() => {
+    if (!isOpen || !canvasRef.current) return;
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
 
+    const resize = () => {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    };
+    resize();
+
+    const particles = Array.from({ length: 40 }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      size: Math.random() * 1.5 + 0.5,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      opacity: Math.random() * 0.25 + 0.05,
+    }));
+
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach((p) => {
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0) p.x = canvas.width;
+        if (p.x > canvas.width) p.x = 0;
+        if (p.y < 0) p.y = canvas.height;
+        if (p.y > canvas.height) p.y = 0;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(200, 146, 42, ${p.opacity})`;
+        ctx.fill();
+      });
+      animRef.current = requestAnimationFrame(animate);
+    };
+    animate();
+
+    return () => {
+      if (animRef.current) cancelAnimationFrame(animRef.current);
+    };
+  }, [isOpen]);
+
+  // Submit
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     try {
       const serviceName =
-        config.services.find((s) => s.id === form.service)?.title ?? form.service;
+        config.services.find((s) => s.id === values.service)?.title ??
+        values.service;
 
       const res = await fetch(config.business.booking.webhookUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           type: "booking",
-          name: form.name,
-          phone: form.phone,
-          service: form.service,
+          name: values.name,
+          phone: values.phone,
+          service: values.service,
           serviceName,
-          date: form.date,
-          time: form.time,
-          notes: form.notes,
+          date: values.date,
+          time: values.time,
+          notes: values.notes,
           ...(preferredStylist ? { preferredStylist } : {}),
           salon: config.business.name,
         }),
       });
 
       if (!res.ok) throw new Error("Server error");
-      closeModal();
-      setForm({ ...EMPTY_FORM });
-      showToast("Ďakujeme! Potvrdenie dostanete na WhatsApp.", "success");
+
+      setSubmitted(true);
+      setTimeout(() => {
+        setSubmitted(false);
+        setValues({ name: "", phone: "", service: "", date: "", time: "", notes: "" });
+        closeModal();
+        showToast("Ďakujeme! Potvrdenie dostanete na WhatsApp.", "success");
+      }, 1800);
     } catch {
       showToast("Niečo sa pokazilo. Skúste to znova alebo nám zavolajte.", "error");
     } finally {
@@ -126,104 +201,542 @@ export default function BookingModal() {
     }
   };
 
-  if (!isOpen) return null;
+  // ── Shared styles ───────────────────────────────────────
+
+  const fieldStyle = (name: string): React.CSSProperties => ({
+    width: "100%",
+    background:
+      focused === name ? "rgba(200,146,42,0.06)" : "rgba(237,232,223,0.03)",
+    border: "1px solid",
+    borderColor:
+      focused === name ? "rgba(200,146,42,0.45)" : "rgba(237,232,223,0.1)",
+    borderRadius: "10px",
+    padding: "10px 14px 10px 36px",
+    color: "#EDE8DF",
+    fontFamily: "'DM Sans', sans-serif",
+    fontSize: "13px",
+    fontWeight: 300,
+    outline: "none",
+    transition: "all 0.25s",
+    backdropFilter: "blur(4px)",
+  });
+
+  const labelStyle: React.CSSProperties = {
+    display: "block",
+    fontFamily: "'DM Sans', sans-serif",
+    fontSize: "9px",
+    fontWeight: 500,
+    letterSpacing: "0.18em",
+    textTransform: "uppercase",
+    color: "#C8922A",
+    marginBottom: "5px",
+  };
+
+  const iconStyle = (name: string): React.CSSProperties => ({
+    position: "absolute",
+    left: "12px",
+    top: "50%",
+    transform: "translateY(-50%)",
+    color: focused === name ? "#C8922A" : "#7A756C",
+    transition: "color 0.25s",
+    pointerEvents: "none",
+  });
+
+  // ── Mobile vs desktop positioning ──────────────────────
+
+  const mobileModalStyle: React.CSSProperties = {
+    position: "fixed",
+    top: "auto",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1001,
+    width: "100%",
+    maxWidth: "100%",
+    maxHeight: "92vh",
+    overflow: "hidden",
+  };
+
+  const desktopModalStyle: React.CSSProperties = {
+    position: "fixed",
+    top: "50%",
+    left: "50%",
+    zIndex: 1001,
+    width: "100%",
+    maxWidth: "560px",
+    maxHeight: "92vh",
+  };
+
+  const mobileCardStyle: React.CSSProperties = {
+    borderRadius: "20px 20px 0 0",
+  };
+
+  const desktopCardStyle: React.CSSProperties = {
+    borderRadius: "20px",
+  };
+
+  const mobileInitial = { y: "100%", opacity: 0 } as const;
+  const desktopInitial = { opacity: 0, scale: 0.94, x: "-50%", y: "-46%" } as const;
+  const mobileAnimate = { y: 0, opacity: 1 } as const;
+  const desktopAnimate = { opacity: 1, scale: 1, x: "-50%", y: "-50%" } as const;
+  const mobileExit = { y: "100%", opacity: 0 } as const;
+  const desktopExit = { opacity: 0, scale: 0.94, x: "-50%", y: "-46%" } as const;
+
+  const twoColGrid = isMobile ? "1fr" : "1fr 1fr";
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-end md:items-center justify-center">
-      <div className="absolute inset-0 bg-surface/75 backdrop-blur-sm" onClick={closeModal} aria-hidden />
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          {/* Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            onClick={closeModal}
+            style={{
+              position: "fixed",
+              inset: 0,
+              zIndex: 1000,
+              background: "rgba(0,0,0,0.75)",
+              backdropFilter: "blur(12px)",
+              WebkitBackdropFilter: "blur(12px)",
+            }}
+          />
 
-      <div role="dialog" aria-modal="true" aria-label="Rezervácia termínu"
-        className="relative w-full md:max-w-lg h-full md:h-auto md:max-h-[92vh] bg-surface-container-high md:rounded-2xl flex flex-col overflow-hidden modal-enter">
+          {/* Modal */}
+          <motion.div
+            initial={isMobile ? mobileInitial : desktopInitial}
+            animate={isMobile ? mobileAnimate : desktopAnimate}
+            exit={isMobile ? mobileExit : desktopExit}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            style={isMobile ? mobileModalStyle : desktopModalStyle}
+          >
+            <div
+              style={{
+                position: "relative",
+                background: "#141210",
+                border: "1px solid rgba(237,232,223,0.08)",
+                overflow: "hidden",
+                display: "flex",
+                flexDirection: "column",
+                ...(isMobile ? mobileCardStyle : desktopCardStyle),
+              }}
+            >
+              {/* Particle canvas */}
+              <canvas
+                ref={canvasRef}
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  width: "100%",
+                  height: "100%",
+                  pointerEvents: "none",
+                  zIndex: 0,
+                }}
+              />
 
-        {/* Header */}
-        <div className="flex items-center justify-between px-7 py-5 border-b border-outline-variant/20 shrink-0">
-          <div>
-            <h2 className="font-headline text-2xl font-bold text-on-surface">Rezervácia termínu</h2>
-            <p className="font-label text-xs uppercase tracking-widest text-primary-container mt-0.5">
-              {config.business.name}
-            </p>
-          </div>
-          <button onClick={closeModal}
-            className="text-on-surface-variant hover:text-on-surface transition-colors p-2 -mr-2"
-            aria-label="Zavrieť">
-            <X size={20} />
-          </button>
-        </div>
+              {/* Gold top accent line */}
+              <div
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  height: "1px",
+                  background:
+                    "linear-gradient(to right, transparent, #C8922A, transparent)",
+                }}
+              />
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto px-7 py-6 flex flex-col gap-6">
+              <div
+                style={{ 
+                  position: "relative", 
+                  zIndex: 1, 
+                  padding: "28px 32px 24px",
+                  overflowY: "auto",
+                  maxHeight: "92vh"
+                }}
+                className="modal-content-pad"
+              >
+                {/* Header */}
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    justifyContent: "space-between",
+                    marginBottom: "20px",
+                  }}
+                >
+                  <div>
+                    <span
+                      style={{
+                        fontFamily: "'DM Sans', sans-serif",
+                        fontSize: "9px",
+                        fontWeight: 500,
+                        letterSpacing: "0.2em",
+                        textTransform: "uppercase",
+                        color: "#C8922A",
+                        display: "block",
+                        marginBottom: "6px",
+                      }}
+                    >
+                      Bella Studio
+                    </span>
+                    <h2
+                      style={{
+                        fontFamily: "'Cormorant Garamond', Georgia, serif",
+                        fontSize: "clamp(28px, 4vw, 38px)",
+                        fontWeight: 300,
+                        fontStyle: "italic",
+                        color: "#EDE8DF",
+                        lineHeight: 1.1,
+                        margin: 0,
+                      }}
+                    >
+                      Rezervácia termínu
+                    </h2>
+                  </div>
+                  <CloseButton onClick={closeModal} />
+                </div>
 
-          {/* Preferred stylist badge (when pre-set from team page) */}
-          {preferredStylist && (
-            <div className="flex items-center gap-2 bg-primary-container/10 border border-primary-container/20 px-4 py-3">
-              <User size={14} className="text-primary-container shrink-0" />
-              <span className="font-label text-xs text-on-surface">
-                Preferovaný stylist:{" "}
-                <span className="text-primary-container font-bold">{preferredStylist}</span>
-              </span>
-            </div>
-          )}
+                {/* Divider */}
+                <div
+                  style={{
+                    height: "1px",
+                    background: "rgba(237,232,223,0.06)",
+                    marginBottom: "20px",
+                  }}
+                />
 
-          <Field label="Meno a priezvisko *" htmlFor="booking-name">
-            <input id="booking-name" type="text" name="name" value={form.name} onChange={handleChange}
-              required autoComplete="name" className={fieldClass} placeholder="Ján Novák" />
-          </Field>
+                {/* Form */}
+                <form onSubmit={handleSubmit}>
 
-          <Field label="Telefón *" htmlFor="booking-phone">
-            <input id="booking-phone" type="tel" name="phone" value={form.phone} onChange={handleChange}
-              required autoComplete="tel" className={fieldClass} placeholder="+421 9XX XXX XXX" />
-          </Field>
+                  {/* Preferred stylist badge */}
+                  {preferredStylist && (
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 10,
+                        background: "rgba(200,146,42,0.08)",
+                        border: "1px solid rgba(200,146,42,0.2)",
+                        borderRadius: "10px",
+                        padding: "10px 14px",
+                        marginBottom: "12px",
+                      }}
+                    >
+                      <User size={13} style={{ color: "#C8922A", flexShrink: 0 }} />
+                      <span
+                        style={{
+                          fontFamily: "'DM Sans', sans-serif",
+                          fontSize: "12px",
+                          color: "#EDE8DF",
+                        }}
+                      >
+                        Preferovaný stylist:{" "}
+                        <strong style={{ color: "#C8922A", fontWeight: 500 }}>
+                          {preferredStylist}
+                        </strong>
+                      </span>
+                    </div>
+                  )}
 
-          <Field label="Služba *" htmlFor="booking-service">
-            <div className="relative">
-              <select id="booking-service" name="service" value={form.service} onChange={handleChange}
-                required className={`${fieldClass} appearance-none pr-8`}>
-                <option value="" disabled>Vyberte službu…</option>
-                {config.services.map((s) => (
-                  <option key={s.id} value={s.id}>{s.title} — {s.price}</option>
-                ))}
-              </select>
-              <ChevronIcon />
-            </div>
-          </Field>
+                  {/* Row 1: Name + Phone */}
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: twoColGrid,
+                      gap: "12px",
+                      marginBottom: "12px",
+                    }}
+                  >
+                    <div>
+                      <label style={labelStyle}>Meno a priezvisko *</label>
+                      <div style={{ position: "relative" }}>
+                        <User size={13} style={iconStyle("name")} />
+                        <input
+                          type="text"
+                          placeholder="Ján Novák"
+                          value={values.name}
+                          onChange={(e) =>
+                            setValues((v) => ({ ...v, name: e.target.value }))
+                          }
+                          onFocus={() => setFocused("name")}
+                          onBlur={() => setFocused(null)}
+                          required
+                          autoComplete="name"
+                          style={fieldStyle("name")}
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label style={labelStyle}>Telefón *</label>
+                      <div style={{ position: "relative" }}>
+                        <Phone size={13} style={iconStyle("phone")} />
+                        <input
+                          type="tel"
+                          placeholder="+421 9XX XXX XXX"
+                          value={values.phone}
+                          onChange={(e) =>
+                            setValues((v) => ({ ...v, phone: e.target.value }))
+                          }
+                          onFocus={() => setFocused("phone")}
+                          onBlur={() => setFocused(null)}
+                          required
+                          autoComplete="tel"
+                          style={fieldStyle("phone")}
+                        />
+                      </div>
+                    </div>
+                  </div>
 
-          <div className="grid grid-cols-2 gap-5">
-            <Field label="Preferovaný dátum" htmlFor="booking-date">
-              <input id="booking-date" type="date" name="date" value={form.date} onChange={handleChange}
-                min={minDate} className={fieldClass} />
-            </Field>
-            <Field label="Preferovaný čas" htmlFor="booking-time">
-              <div className="relative">
-                <select id="booking-time" name="time" value={form.time} onChange={handleChange}
-                  className={`${fieldClass} appearance-none pr-8`}>
-                  <option value="">Vyberte čas…</option>
-                  {TIME_SLOTS.map((t) => <option key={t} value={t}>{t}</option>)}
-                </select>
-                <ChevronIcon />
+                  {/* Row 2: Service */}
+                  <div style={{ marginBottom: "12px" }}>
+                    <label style={labelStyle}>Služba *</label>
+                    <div style={{ position: "relative" }}>
+                      <Scissors size={13} style={iconStyle("service")} />
+                      <select
+                        value={values.service}
+                        onChange={(e) =>
+                          setValues((v) => ({ ...v, service: e.target.value }))
+                        }
+                        onFocus={() => setFocused("service")}
+                        onBlur={() => setFocused(null)}
+                        required
+                        style={{
+                          ...fieldStyle("service"),
+                          appearance: "none",
+                          WebkitAppearance: "none",
+                          cursor: "pointer",
+                        }}
+                      >
+                        <option value="" style={{ background: "#141210" }}>
+                          Vyberte službu…
+                        </option>
+                        {config.services.map((s) => (
+                          <option
+                            key={s.id}
+                            value={s.id}
+                            style={{ background: "#141210" }}
+                          >
+                            {s.title} — {s.price}
+                          </option>
+                        ))}
+                      </select>
+                      <div
+                        style={{
+                          position: "absolute",
+                          right: "12px",
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          color: "#7A756C",
+                          pointerEvents: "none",
+                          fontSize: "10px",
+                        }}
+                      >
+                        ▾
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Row 3: Date + Time */}
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: twoColGrid,
+                      gap: "12px",
+                      marginBottom: "12px",
+                    }}
+                  >
+                    <div>
+                      <label style={labelStyle}>Preferovaný dátum</label>
+                      <div style={{ position: "relative" }}>
+                        <Calendar size={13} style={iconStyle("date")} />
+                        <input
+                          type="date"
+                          value={values.date}
+                          onChange={(e) =>
+                            setValues((v) => ({ ...v, date: e.target.value }))
+                          }
+                          onFocus={() => setFocused("date")}
+                          onBlur={() => setFocused(null)}
+                          style={{
+                            ...fieldStyle("date"),
+                            colorScheme: "dark",
+                          }}
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label style={labelStyle}>Preferovaný čas</label>
+                      <div style={{ position: "relative" }}>
+                        <Clock size={13} style={iconStyle("time")} />
+                        <select
+                          value={values.time}
+                          onChange={(e) =>
+                            setValues((v) => ({ ...v, time: e.target.value }))
+                          }
+                          onFocus={() => setFocused("time")}
+                          onBlur={() => setFocused(null)}
+                          style={{
+                            ...fieldStyle("time"),
+                            appearance: "none",
+                            WebkitAppearance: "none",
+                            cursor: "pointer",
+                          }}
+                        >
+                          <option value="" style={{ background: "#141210" }}>
+                            Vyberte čas…
+                          </option>
+                          {[
+                            "09:00","10:00","11:00","12:00","13:00",
+                            "14:00","15:00","16:00","17:00","18:00","19:00",
+                          ].map((t) => (
+                            <option key={t} value={t} style={{ background: "#141210" }}>
+                              {t}
+                            </option>
+                          ))}
+                        </select>
+                        <div
+                          style={{
+                            position: "absolute",
+                            right: "12px",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                            color: "#7A756C",
+                            pointerEvents: "none",
+                            fontSize: "10px",
+                          }}
+                        >
+                          ▾
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Row 4: Notes */}
+                  <div style={{ marginBottom: "20px" }}>
+                    <label style={labelStyle}>Poznámky (nepovinné)</label>
+                    <div style={{ position: "relative" }}>
+                      <MessageSquare
+                        size={13}
+                        style={{ ...iconStyle("notes"), top: "14px", transform: "none" }}
+                      />
+                      <textarea
+                        placeholder="Špeciálne požiadavky…"
+                        value={values.notes}
+                        onChange={(e) =>
+                          setValues((v) => ({ ...v, notes: e.target.value }))
+                        }
+                        onFocus={() => setFocused("notes")}
+                        onBlur={() => setFocused(null)}
+                        rows={2}
+                        style={{
+                          ...fieldStyle("notes"),
+                          resize: "none",
+                          paddingTop: "10px",
+                          lineHeight: 1.5,
+                        }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Submit */}
+                  <motion.button
+                    type="submit"
+                    disabled={loading || submitted}
+                    whileHover={!loading && !submitted ? { scale: 1.01 } : {}}
+                    whileTap={!loading && !submitted ? { scale: 0.98 } : {}}
+                    style={{
+                      width: "100%",
+                      padding: "14px",
+                      borderRadius: "9999px",
+                      border: "none",
+                      background: submitted
+                        ? "rgba(200,146,42,0.3)"
+                        : "linear-gradient(110deg, #C8922A 30%, #F0C060 45%, #E8B84B 50%, #C8922A 60%, #C8922A)",
+                      backgroundSize: "200% 100%",
+                      animation:
+                        submitted ? "none" : "shimmer2 2.5s infinite linear",
+                      color: "#0C0B09",
+                      fontFamily: "'DM Sans', sans-serif",
+                      fontSize: "11px",
+                      fontWeight: 500,
+                      letterSpacing: "0.16em",
+                      textTransform: "uppercase",
+                      cursor: loading || submitted ? "default" : "none",
+                      transition: "all 0.3s",
+                      boxShadow: "0 0 24px rgba(200,146,42,0.25)",
+                      opacity: loading ? 0.7 : 1,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: "8px",
+                    }}
+                  >
+                    {submitted
+                      ? "✓ Rezervácia odoslaná"
+                      : loading
+                      ? "Odosielam…"
+                      : "Odoslať rezerváciu"}
+                  </motion.button>
+
+                  {/* Privacy note */}
+                  <p
+                    style={{
+                      fontFamily: "'DM Sans', sans-serif",
+                      fontSize: "10px",
+                      color: "rgba(237,232,223,0.25)",
+                      textAlign: "center",
+                      marginTop: "12px",
+                      letterSpacing: "0.04em",
+                    }}
+                  >
+                    Vaše údaje spracúvame iba za účelom rezervácie termínu.
+                  </p>
+                </form>
               </div>
-            </Field>
-          </div>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+}
 
-          <Field label="Poznámky (nepovinné)" htmlFor="booking-notes">
-            <textarea id="booking-notes" name="notes" value={form.notes} onChange={handleChange}
-              rows={3} className={`${fieldClass} resize-none`}
-              placeholder="Špeciálne požiadavky…" />
-          </Field>
+// ─── Close button ───────────────────────────────────────────
 
-          <button type="submit" disabled={loading}
-            className="mt-2 bg-primary-container text-on-primary font-label font-bold uppercase tracking-widest text-sm flex items-center justify-center min-h-[52px] hover:brightness-110 transition-all disabled:opacity-60 disabled:cursor-not-allowed shrink-0 rounded-xl">
-            {loading ? (
-              <span className="flex items-center gap-2">
-                <Loader2 size={16} className="animate-spin" />Odosielam…
-              </span>
-            ) : "Odoslať rezerváciu"}
-          </button>
-
-          <p className="font-label text-[10px] uppercase tracking-widest text-on-surface-variant/50 text-center pb-2">
-            Vaše údaje spracovávame iba za účelom rezervácie.
-          </p>
-        </form>
-      </div>
-    </div>
+function CloseButton({ onClick }: { onClick: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      aria-label="Zavrieť"
+      style={{
+        width: "32px",
+        height: "32px",
+        borderRadius: "50%",
+        background: "rgba(237,232,223,0.06)",
+        border: "1px solid rgba(237,232,223,0.1)",
+        color: "#7A756C",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        cursor: "none",
+        transition: "all 0.2s",
+        flexShrink: 0,
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.borderColor = "rgba(200,146,42,0.4)";
+        e.currentTarget.style.color = "#C8922A";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.borderColor = "rgba(237,232,223,0.1)";
+        e.currentTarget.style.color = "#7A756C";
+      }}
+    >
+      <X size={14} />
+    </button>
   );
 }

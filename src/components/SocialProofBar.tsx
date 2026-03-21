@@ -1,41 +1,62 @@
-import { Star } from "lucide-react";
-import config from "../../content/site-config.json";
+// Marquee bar — pure CSS animation, no client JS needed
+const items = [
+  { stars: true, text: "4.9 Google hodnotenie" },
+  { text: "156+ spokojných klientov" },
+  { text: "Centrum Bratislavy" },
+  { text: "Prémiové produkty" },
+  { text: "Online rezervácia 24/7" },
+];
 
-function StarRating({ rating }: { rating: number }) {
-  const full = Math.floor(rating);
+function MarqueeItem({ item }: { item: typeof items[number] }) {
   return (
-    <span className="flex items-center gap-0.5">
-      {Array.from({ length: 5 }).map((_, i) => (
-        <Star
-          key={i}
-          size={13}
-          strokeWidth={0}
-          className={i < full ? "fill-on-primary" : "fill-on-primary/30"}
-        />
-      ))}
+    <span
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 32,
+        padding: "0 40px",
+        fontSize: 11,
+        letterSpacing: "0.18em",
+        textTransform: "uppercase" as const,
+        color: "var(--muted)",
+        whiteSpace: "nowrap" as const,
+        fontFamily: "var(--font-dm-sans), DM Sans, sans-serif",
+        fontWeight: 400,
+      }}
+    >
+      {item.stars && (
+        <span style={{ color: "var(--gold)", fontSize: 14 }}>★★★★★</span>
+      )}
+      <strong style={{ color: "var(--cream)", fontWeight: 400 }}>{item.text}</strong>
+      <span
+        style={{
+          width: 4, height: 4,
+          background: "var(--gold)",
+          borderRadius: "50%",
+          display: "inline-block",
+          flexShrink: 0,
+        }}
+      />
     </span>
   );
 }
 
 export default function SocialProofBar() {
-  const { rating, reviewCount } = config.business;
   return (
-    <div className="bg-primary-container py-4 px-6">
-      <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-2">
-        <div className="flex items-center gap-2">
-          <StarRating rating={rating} />
-          <span className="font-label font-bold uppercase tracking-widest text-xs text-on-primary">
-            {rating} Google hodnotenie
-          </span>
-        </div>
-        <span className="w-px h-4 bg-on-primary/20 hidden sm:block" />
-        <span className="font-label font-bold uppercase tracking-widest text-xs text-on-primary">
-          {reviewCount}+ spokojných klientov
-        </span>
-        <span className="w-px h-4 bg-on-primary/20 hidden sm:block" />
-        <span className="font-label font-bold uppercase tracking-widest text-xs text-on-primary">
-          Centrum Bratislavy
-        </span>
+    <div
+      style={{
+        borderTop: "1px solid var(--border)",
+        borderBottom: "1px solid var(--border)",
+        background: "var(--bg-2)",
+        padding: "18px 0",
+        overflow: "hidden",
+      }}
+    >
+      {/* Duplicate items for seamless loop */}
+      <div className="animate-marquee" style={{ display: "flex", whiteSpace: "nowrap" }}>
+        {[...items, ...items].map((item, i) => (
+          <MarqueeItem key={i} item={item} />
+        ))}
       </div>
     </div>
   );

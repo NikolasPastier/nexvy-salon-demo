@@ -1,28 +1,29 @@
 import type { Metadata } from "next";
-import { Noto_Serif, Space_Grotesk } from "next/font/google";
+import { Cormorant_Garamond, DM_Sans } from "next/font/google";
 import "./globals.css";
 import { BookingModalProvider } from "@/context/BookingModalContext";
 import BookingModal, { Toast } from "@/components/BookingModal";
+import CustomCursor from "@/components/CustomCursor";
 import config from "../../content/site-config.json";
 
-const notoSerif = Noto_Serif({
-  variable: "--font-noto-serif",
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
   subsets: ["latin"],
-  weight: ["400", "700", "900"],
+  weight: ["300", "400", "500", "600"],
   style: ["normal", "italic"],
   display: "swap",
 });
 
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["300", "400", "500"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
   title: {
-    default: "Bella Studio | Prémiový kadernícky salón Bratislava",
+    default: "Bella Studio | Prémiové Kaderníctvo Bratislava",
     template: "%s | Bella Studio",
   },
   description:
@@ -50,11 +51,6 @@ const jsonLd = {
     addressLocality: "Bratislava",
     addressCountry: "SK",
   },
-  geo: {
-    "@type": "GeoCoordinates",
-    latitude: 48.149,
-    longitude: 17.1084,
-  },
   openingHoursSpecification: [
     {
       "@type": "OpeningHoursSpecification",
@@ -76,21 +72,13 @@ const jsonLd = {
     bestRating: "5",
     worstRating: "1",
   },
-  sameAs: [
-    config.business.contacts.instagram,
-    config.business.contacts.facebook,
-    config.business.contacts.google,
-  ],
 };
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="sk"
-      className={`${notoSerif.variable} ${spaceGrotesk.variable}`}
-    >
+    <html lang="sk" className={`${cormorant.variable} ${dmSans.variable}`}>
       <head>
         <script
           type="application/ld+json"
@@ -99,6 +87,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen flex flex-col">
         <BookingModalProvider>
+          <CustomCursor />
           {children}
           <BookingModal />
           <Toast />

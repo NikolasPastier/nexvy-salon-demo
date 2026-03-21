@@ -1,13 +1,13 @@
 import Header from "@/components/Header";
-import Hero from "@/components/Hero";
 import SocialProofBar from "@/components/SocialProofBar";
-import ServiceGrid from "@/components/ServiceGrid";
+import { BellaHero } from "@/components/blocks/hero-bella";
+import { BellaServices } from "@/components/blocks/services-bella";
 import Gallery from "@/components/Gallery";
-import WhyUs from "@/components/WhyUs";
-import TeamSection from "@/components/TeamSection";
-import ReviewCarousel from "@/components/ReviewCarousel";
-import CTABanner from "@/components/CTABanner";
-import Footer from "@/components/Footer";
+import { BellaWhy } from "@/components/blocks/why-bella";
+import { BellaTeam } from "@/components/blocks/team-bella";
+import { BellaTestimonials } from "@/components/blocks/testimonials-bella";
+import { BellaCTA } from "@/components/blocks/cta-bella";
+import { BellaFooter } from "@/components/blocks/footer-bella";
 import WhatsAppButton from "@/components/WhatsAppButton";
 
 export default function HomePage() {
@@ -15,16 +15,16 @@ export default function HomePage() {
     <>
       <Header />
       <main>
-        <Hero />
+        <BellaHero />
         <SocialProofBar />
-        <ServiceGrid />
+        <BellaServices />
         <Gallery />
-        <WhyUs />
-        <TeamSection />
-        <ReviewCarousel />
-        <CTABanner />
+        <BellaWhy />
+        <BellaTeam />
+        <BellaTestimonials />
+        <BellaCTA />
       </main>
-      <Footer />
+      <BellaFooter />
       <WhatsAppButton />
     </>
   );

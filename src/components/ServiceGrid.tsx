@@ -1,79 +1,204 @@
-import Image from "next/image";
 import FadeIn from "./ui/FadeIn";
 import BookingTrigger from "./BookingTrigger";
-import config from "../../content/site-config.json";
+
+const services = [
+  {
+    id: "strihanie",
+    title: "Strihanie a styling",
+    price: "od €30",
+    duration: "45 min",
+    description: "Precízny strih podľa vašich predstáv s profesionálnym stylingom.",
+    img: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&q=80",
+    alt: "Strihanie a styling",
+  },
+  {
+    id: "farbenie",
+    title: "Farbenie vlasov",
+    price: "od €55",
+    duration: "90 min",
+    description: "Profesionálne farbenie s prémiovými farbami L'Oréal Professionnel.",
+    img: "https://images.unsplash.com/photo-1554519934-e32b1629d9ee?w=600&q=80",
+    alt: "Farbenie vlasov",
+  },
+  {
+    id: "balayage",
+    title: "Melír & Balayage",
+    price: "od €75",
+    duration: "120 min",
+    description: "Prirodzené odtiene handpainted technikou od našich špecialistov.",
+    img: "https://images.unsplash.com/photo-1562322140-8baeececf3df?w=600&q=80",
+    alt: "Melír a Balayage",
+  },
+];
 
 export default function ServiceGrid() {
   return (
-    <section id="sluzby" className="bg-surface py-20 px-6 md:px-12">
-      <div className="max-w-7xl mx-auto">
-
+    <section
+      id="services"
+      style={{ padding: "120px 48px", background: "var(--bg)" }}
+    >
+      <div style={{ maxWidth: 1320, margin: "0 auto" }}>
         {/* Header */}
-        <FadeIn>
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-            <div>
-              <span className="text-primary-container font-label tracking-[0.3em] text-xs block mb-4">
-                Čo ponúkame
-              </span>
-              <h2 className="font-headline text-4xl md:text-5xl font-bold tracking-tighter text-on-surface">
-                Naše služby
-              </h2>
-            </div>
-            <p className="font-body text-on-surface-variant leading-relaxed max-w-sm text-sm">
-              Každá návšteva začína individuálnou konzultáciou.
-              Používame výhradne prémiové produkty.
+        <div style={{ marginBottom: 72 }}>
+          <FadeIn>
+            <span className="label" style={{ display: "block", marginBottom: 16 }}>
+              Čo ponúkame
+            </span>
+          </FadeIn>
+          <FadeIn delay={100}>
+            <h2>Naše služby</h2>
+          </FadeIn>
+          <FadeIn delay={200}>
+            <p
+              style={{
+                maxWidth: 440,
+                color: "var(--muted)",
+                fontSize: 15,
+                marginTop: 16,
+                fontFamily: "var(--font-dm-sans), DM Sans, sans-serif",
+              }}
+            >
+              Každá návšteva začína individuálnou konzultáciou. Používame výhradne prémiové produkty.
             </p>
-          </div>
-        </FadeIn>
+          </FadeIn>
+        </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {config.services.map((svc, i) => (
-            <FadeIn key={svc.id} delay={i * 80}>
-              <div className="group flex flex-col h-full bg-white/[0.03] rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.15)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.25)] hover:-translate-y-1 transition-all duration-300 overflow-hidden">
-                {/* Image */}
-                <div className="relative aspect-[4/3] overflow-hidden bg-surface-container rounded-t-2xl">
-                  <Image
-                    src={`https://picsum.photos/seed/svc-${svc.id}/600/450`}
-                    alt={`Ukážka služby: ${svc.title}`}
-                    fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
-                  />
-                </div>
-                {/* Content */}
-                <div className="p-5 flex flex-col flex-1">
-                {/* Title + price */}
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="font-headline text-xl font-bold text-on-surface">
-                    {svc.title}
-                  </h3>
-                  <span className="font-label font-bold text-primary-container text-xs shrink-0 ml-3 bg-primary-container/15 rounded-full px-3 py-1">
-                    {svc.price}
-                  </span>
-                </div>
-                {/* Duration */}
-                <p className="font-label text-xs tracking-widest text-on-surface-variant/60 mb-3">
-                  {svc.duration}
-                </p>
-                {/* Description */}
-                <p className="font-body text-on-surface-variant text-sm leading-relaxed mb-4 flex-1">
-                  {svc.description}
-                </p>
-                {/* CTA */}
-                <BookingTrigger
-                  serviceId={svc.id}
-                  className="bg-primary-container text-on-primary font-label font-bold uppercase tracking-widest text-xs px-5 flex items-center min-h-[40px] w-fit hover:brightness-110 transition-all rounded-xl"
-                  aria-label={`Objednať sa na ${svc.title}`}
-                >
-                  Objednať
-                </BookingTrigger>
-                </div>
-              </div>
-            </FadeIn>
-          ))}
-        </div>
+        <FadeIn>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(3, 1fr)",
+              gap: 1,
+              background: "var(--border)",
+            }}
+            className="services-grid"
+          >
+            {services.map((svc) => (
+              <ServiceCard key={svc.id} svc={svc} />
+            ))}
+          </div>
+        </FadeIn>
       </div>
+
+      {/* Hover + responsive CSS */}
+      <style>{`
+        .service-card-root:hover .service-card-inner {
+          border-color: var(--gold) !important;
+          background: var(--bg-2) !important;
+        }
+        .service-card-root:hover .service-img {
+          transform: scale(1.06) !important;
+          filter: grayscale(30%) brightness(0.85) !important;
+        }
+        .service-card-root:hover .service-arrow-btn {
+          opacity: 1 !important;
+          transform: translateX(0) !important;
+        }
+        @media (max-width: 1024px) { .services-grid { grid-template-columns: repeat(2, 1fr) !important; } }
+        @media (max-width: 640px)  { .services-grid { grid-template-columns: 1fr !important; } }
+      `}</style>
     </section>
+  );
+}
+
+function ServiceCard({ svc }: { svc: typeof services[number] }) {
+  return (
+    <div
+      className="service-card-root"
+      style={{ background: "var(--bg)", overflow: "hidden", position: "relative" }}
+    >
+      {/* Image */}
+      <div style={{ overflow: "hidden", height: 260, position: "relative" }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={svc.img}
+          alt={svc.alt}
+          loading="lazy"
+          style={{
+            width: "100%", height: "100%",
+            objectFit: "cover",
+            filter: "grayscale(80%) brightness(0.75)",
+            transition: "transform 0.7s var(--ease), filter 0.5s",
+            display: "block",
+          }}
+          className="service-img"
+        />
+      </div>
+
+      {/* Content */}
+      <div
+        className="service-card-inner"
+        style={{
+          padding: "40px 36px",
+          borderTop: "2px solid transparent",
+          transition: "border-color 0.35s var(--ease), background 0.35s",
+        }}
+      >
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
+          <h3 style={{ fontSize: 24, fontWeight: 400 }}>{svc.title}</h3>
+          <span
+            style={{
+              fontFamily: "var(--font-cormorant), 'Cormorant Garamond', Georgia, serif",
+              fontSize: 18,
+              color: "var(--gold)",
+              fontStyle: "italic",
+              whiteSpace: "nowrap",
+              paddingTop: 2,
+            }}
+          >
+            {svc.price}
+          </span>
+        </div>
+        <div
+          style={{
+            fontSize: 11,
+            letterSpacing: "0.1em",
+            color: "var(--muted)",
+            textTransform: "uppercase",
+            marginBottom: 14,
+            fontFamily: "var(--font-dm-sans), DM Sans, sans-serif",
+          }}
+        >
+          {svc.duration}
+        </div>
+        <p
+          style={{
+            fontSize: 14,
+            color: "rgba(237,232,223,0.6)",
+            lineHeight: 1.65,
+            fontFamily: "var(--font-dm-sans), DM Sans, sans-serif",
+            fontWeight: 300,
+          }}
+        >
+          {svc.description}
+        </p>
+        <BookingTrigger
+          serviceId={svc.id}
+          className="service-arrow-btn"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 8,
+            marginTop: 20,
+            fontSize: 11,
+            letterSpacing: "0.12em",
+            textTransform: "uppercase",
+            color: "var(--gold)",
+            background: "none",
+            border: "none",
+            padding: 0,
+            cursor: "none",
+            fontFamily: "var(--font-dm-sans), DM Sans, sans-serif",
+            opacity: 0,
+            transform: "translateX(-8px)",
+            transition: "opacity 0.3s, transform 0.3s",
+          } as React.CSSProperties}
+        >
+          Rezervovať →
+        </BookingTrigger>
+      </div>
+
+    </div>
   );
 }

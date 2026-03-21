@@ -1,61 +1,53 @@
 @import "tailwindcss";
 
+/* ─── Design Tokens (Tailwind theme) ─────────────────────── */
 @theme {
-  /* ─── Fonts ─────────────────────────────────────────── */
-  --font-headline: var(--font-noto-serif), "Noto Serif", serif;
-  --font-body:     var(--font-space-grotesk), "Space Grotesk", sans-serif;
-  --font-label:    var(--font-space-grotesk), "Space Grotesk", sans-serif;
+  /* Fonts */
+  --font-headline: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
+  --font-body:     var(--font-dm-sans), 'DM Sans', sans-serif;
+  --font-label:    var(--font-dm-sans), 'DM Sans', sans-serif;
 
-  /* ─── Border radius — sharp editorial corners ────────── */
-  --radius:     0px;
-  --radius-sm:  0px;
-  --radius-md:  0px;
-  --radius-lg:  0px;
-  --radius-xl:  0px;
-  --radius-2xl: 0px;
-  --radius-full: 9999px;
+  /* Surfaces — mapped to bella-studio dark palette */
+  --color-background:                #0C0B09;
+  --color-surface:                   #0C0B09;
+  --color-surface-dim:               #0C0B09;
+  --color-surface-bright:            #2a2824;
+  --color-surface-container-lowest:  #080706;
+  --color-surface-container-low:     #141210;
+  --color-surface-container:         #1D1B17;
+  --color-surface-container-high:    #252319;
+  --color-surface-container-highest: #2e2c22;
+  --color-surface-variant:           #2e2c22;
+  --color-surface-tint:              #C8922A;
 
-  /* ─── Surface scale ──────────────────────────────────── */
-  --color-background:                #131313;
-  --color-surface:                   #131313;
-  --color-surface-dim:               #131313;
-  --color-surface-bright:            #3a3939;
-  --color-surface-container-lowest:  #0e0e0e;
-  --color-surface-container-low:     #1c1b1b;
-  --color-surface-container:         #201f1f;
-  --color-surface-container-high:    #2a2a2a;
-  --color-surface-container-highest: #353534;
-  --color-surface-variant:           #353534;
-  --color-surface-tint:              #fdba49;
+  /* On-surface */
+  --color-on-surface:         #EDE8DF;
+  --color-on-surface-variant: #7A756C;
+  --color-inverse-surface:    #EDE8DF;
+  --color-inverse-on-surface: #1D1B17;
 
-  /* ─── On-surface ─────────────────────────────────────── */
-  --color-on-surface:         #e5e2e1;
-  --color-on-surface-variant: #d5c4af;
-  --color-inverse-surface:    #e5e2e1;
-  --color-inverse-on-surface: #313030;
+  /* Primary (gold) */
+  --color-primary:                  #E0A83A;
+  --color-primary-container:        #C8922A;
+  --color-primary-fixed:            #f5d090;
+  --color-primary-fixed-dim:        #E0A83A;
+  --color-on-primary:               #0C0B09;
+  --color-on-primary-container:     #0C0B09;
+  --color-on-primary-fixed:         #1a0d00;
+  --color-on-primary-fixed-variant: #3d2200;
+  --color-inverse-primary:          #C8922A;
 
-  /* ─── Primary (Electric Amber) ───────────────────────── */
-  --color-primary:                  #ffc66b;
-  --color-primary-container:        #e8a838;
-  --color-primary-fixed:            #ffddaf;
-  --color-primary-fixed-dim:        #fdba49;
-  --color-on-primary:               #432c00;
-  --color-on-primary-container:     #5f3f00;
-  --color-on-primary-fixed:         #281800;
-  --color-on-primary-fixed-variant: #614000;
-  --color-inverse-primary:          #805600;
+  /* Secondary */
+  --color-secondary:                  #7A756C;
+  --color-secondary-container:        #3a3832;
+  --color-secondary-fixed:            #d5cfc3;
+  --color-secondary-fixed-dim:        #b8b2a7;
+  --color-on-secondary:               #EDE8DF;
+  --color-on-secondary-container:     #EDE8DF;
+  --color-on-secondary-fixed:         #0C0B09;
+  --color-on-secondary-fixed-variant: #1D1B17;
 
-  /* ─── Secondary ──────────────────────────────────────── */
-  --color-secondary:                  #c6c7c2;
-  --color-secondary-container:        #484a46;
-  --color-secondary-fixed:            #e3e3de;
-  --color-secondary-fixed-dim:        #c6c7c2;
-  --color-on-secondary:               #2f312e;
-  --color-on-secondary-container:     #b8b9b4;
-  --color-on-secondary-fixed:         #1a1c19;
-  --color-on-secondary-fixed-variant: #454744;
-
-  /* ─── Tertiary ───────────────────────────────────────── */
+  /* Tertiary (kept for BookingModal compat) */
   --color-tertiary:                  #aad4ff;
   --color-tertiary-container:        #6ebafe;
   --color-tertiary-fixed:            #cee5ff;
@@ -65,91 +57,270 @@
   --color-on-tertiary-fixed:         #001d33;
   --color-on-tertiary-fixed-variant: #004a77;
 
-  /* ─── Outline ────────────────────────────────────────── */
-  --color-outline:         #9d8e7c;
-  --color-outline-variant: #504535;
+  /* Outline */
+  --color-outline:         #3a3730;
+  --color-outline-variant: #2a2820;
 
-  /* ─── Error ──────────────────────────────────────────── */
+  /* Error */
   --color-error:              #ffb4ab;
   --color-error-container:    #93000a;
   --color-on-error:           #690005;
   --color-on-error-container: #ffdad6;
 }
 
-/* ─── Base ──────────────────────────────────────────────── */
+/* ─── Bella Studio CSS vars ───────────────────────────────── */
+:root {
+  --bg:       #0C0B09;
+  --bg-2:     #141210;
+  --bg-3:     #1D1B17;
+  --gold:     #C8922A;
+  --gold-l:   #E0A83A;
+  --gold-dim: rgba(200,146,42,0.12);
+  --cream:    #EDE8DF;
+  --muted:    #7A756C;
+  --border:   rgba(237,232,223,0.07);
+  --ease:     cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* ── Radius tokens ── */
+  --radius-btn:   9999px;
+  --radius-card:  16px;
+  --radius-input: 10px;
+  --radius-tag:   9999px;
+  --radius-img:   12px;
+}
+
+/* ─── Base ───────────────────────────────────────────────── */
 html {
-  background-color: #131313;
-  color: #e5e2e1;
+  scroll-behavior: smooth;
+  background-color: var(--bg);
+  color: var(--cream);
 }
 
 body {
-  font-family: var(--font-body);
-  background-color: #131313;
-  color: #e5e2e1;
+  font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.7;
+  background-color: var(--bg);
+  color: var(--cream);
   overflow-x: hidden;
+  cursor: none;
   -webkit-font-smoothing: antialiased;
 }
 
-/* ─── Smooth scroll ─────────────────────────────────────── */
-html {
-  scroll-behavior: smooth;
+/* Grain overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9990;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.032;
+  pointer-events: none;
 }
 
-/* ─── Scrollbar ─────────────────────────────────────────── */
-.no-scrollbar::-webkit-scrollbar { display: none; }
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+/* ─── Typography ──────────────────────────────────────────── */
+h1, h2, h3, h4 {
+  font-family: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
+  font-weight: 400;
 }
 
-/* ─── Scroll-triggered fade-in ──────────────────────────── */
+h1 {
+  font-size: clamp(62px, 9vw, 118px);
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-size: clamp(40px, 5vw, 66px);
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+}
+
+h3 {
+  font-size: clamp(22px, 2.5vw, 28px);
+  line-height: 1.2;
+}
+
+.label {
+  font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* ─── Custom cursor ───────────────────────────────────────── */
+#cursor {
+  position: fixed;
+  top: 0; left: 0;
+  z-index: 9999;
+  width: 10px; height: 10px;
+  background: var(--gold);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s var(--ease), height 0.3s var(--ease), opacity 0.3s;
+}
+
+#cursor-ring {
+  position: fixed;
+  top: 0; left: 0;
+  z-index: 9998;
+  width: 36px; height: 36px;
+  border: 1px solid rgba(200,146,42,0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s var(--ease), height 0.3s var(--ease);
+}
+
+body.cursor-hover #cursor { width: 6px; height: 6px; opacity: 0.5; }
+body.cursor-hover #cursor-ring {
+  width: 52px; height: 52px;
+  border-color: rgba(200,146,42,0.35);
+}
+
+/* ─── Scroll-triggered fade-in (used by FadeIn component) ─── */
 .fade-in-up {
   opacity: 0;
   transform: translateY(28px);
-  transition: opacity 0.65s ease, transform 0.65s ease;
+  transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
 }
 .fade-in-up.is-visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* ─── Modal animation ───────────────────────────────────── */
+/* ─── Keyframe animations ─────────────────────────────────── */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes scrollLine {
+  0%   { transform: scaleY(0); transform-origin: top; }
+  50%  { transform: scaleY(1); transform-origin: top; }
+  51%  { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes heroStatBar {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
 @keyframes modalScaleIn {
   from { opacity: 0; transform: scale(0.96) translateY(8px); }
   to   { opacity: 1; transform: scale(1)    translateY(0);   }
 }
+
 @keyframes sheetSlideUp {
   from { transform: translateY(100%); }
   to   { transform: translateY(0);    }
 }
-.modal-enter {
-  animation: modalScaleIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-@media (max-width: 767px) {
-  .modal-enter {
-    animation: sheetSlideUp 0.35s cubic-bezier(0.32, 0.72, 0, 1) forwards;
-  }
-}
 
-/* ─── Toast animation ───────────────────────────────────── */
 @keyframes toastSlideIn {
   from { opacity: 0; transform: translateX(110%); }
   to   { opacity: 1; transform: translateX(0);    }
 }
-.toast-slide-in {
-  animation: toastSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
+/* ─── Testimonials marquee (gap-aware, looped via 4 duplicate strips) ─── */
+@keyframes marqueeGap {
+  from { transform: translateX(0); }
+  to   { transform: translateX(calc(-100% - var(--gap, 16px))); }
 }
 
-/* ─── Form controls on dark bg ──────────────────────────── */
-select, input[type="date"] {
-  color-scheme: dark;
+/* ─── Animation utility classes ──────────────────────────── */
+.animate-marquee      { animation: marquee 24s linear infinite; }
+.animate-marquee-gap  { animation: marqueeGap var(--duration, 40s) linear infinite; }
+.animate-spin-slow    { animation: spin 18s linear infinite; }
+.animate-scroll-line  { animation: scrollLine 2s ease-in-out infinite; }
+.modal-enter          { animation: modalScaleIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.toast-slide-in       { animation: toastSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+@media (max-width: 767px) {
+  .modal-enter { animation: sheetSlideUp 0.35s cubic-bezier(0.32, 0.72, 0, 1) forwards; }
 }
-select option {
-  background-color: #201f1f;
-  color: #e5e2e1;
+
+/* Stat bar reveal (triggered by .visible class via JS) */
+.stat-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 36px; right: 36px;
+  height: 1px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.6s var(--ease);
 }
+.stat-item.visible::after { transform: scaleX(1); }
+
+/* ─── Hero entrance animations ───────────────────────────── */
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in-down { animation: fadeInDown 0.9s var(--ease) forwards; opacity: 0; }
+.animate-fade-in-up   { animation: fadeInUp   0.9s var(--ease) forwards; opacity: 0; }
+.animation-delay-200  { animation-delay: 0.2s; }
+.animation-delay-400  { animation-delay: 0.4s; }
+.animation-delay-600  { animation-delay: 0.6s; }
+.animation-delay-800  { animation-delay: 0.8s; }
+
+/* ─── Scrollbar hide utility ──────────────────────────────── */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ─── Form controls on dark bg ───────────────────────────── */
+select, input[type="date"] { color-scheme: dark; }
+select option { background-color: var(--bg-3); color: var(--cream); }
 input[type="date"]::-webkit-calendar-picker-indicator {
   filter: invert(0.7) sepia(0.3);
   cursor: pointer;
 }
 
+/* ─── Shimmer button keyframe ─────────────────────────────── */
+@keyframes shimmer2 {
+  0%   { background-position: 0% 0%; }
+  100% { background-position: -200% 0%; }
+}
+
+/* ─── CTA section — brand vars + keyframes ────────────────── */
+:root {
+  --brand:            38 72% 48%;
+  --brand-foreground: 38 85% 58%;
+}
+
+@keyframes cta-fade-in-up {
+  0%   { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes cta-scale-in {
+  0%   { opacity: 0; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.animate-cta-fade-in-up { animation: cta-fade-in-up 0.5s ease-out forwards; opacity: 0; }
+.animate-cta-scale-in   { animation: cta-scale-in   0.5s ease-out forwards; opacity: 0; }
+
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-500 { animation-delay: 500ms; }
+.delay-700 { animation-delay: 700ms; }
+
+.fade-top-lg {
+  -webkit-mask-image: linear-gradient(to bottom, transparent, rgba(0,0,0,1) 8rem);
+  mask-image: linear-gradient(to bottom, transparent, rgba(0,0,0,1) 8rem);
+}
