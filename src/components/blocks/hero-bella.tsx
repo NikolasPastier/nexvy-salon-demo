@@ -13,7 +13,7 @@ export function BellaHero() {
 
   return (
     <div
-      className="flex flex-col overflow-hidden"
+      className="flex flex-col overflow-hidden pb-12 md:pb-0"
       style={{ background: "#0C0B09", marginTop: "76px" }}
     >
       <ContainerScroll

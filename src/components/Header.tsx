@@ -28,14 +28,22 @@ export default function Header() {
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
-        padding: "0 48px",
-        borderBottom: `1px solid ${scrolled ? "var(--border)" : "transparent"}`,
-        background: scrolled ? "rgba(12,11,9,0.82)" : "transparent",
-        backdropFilter: scrolled ? "blur(24px)" : "none",
-        WebkitBackdropFilter: scrolled ? "blur(24px)" : "none",
-        transition: "background 0.4s, border-color 0.4s",
       }}
+      className="px-6 md:px-12"
     >
+      {/* Background layer to fix iOS Safari fixed + backdrop-filter bug */}
+      <div 
+        style={{
+          position: "absolute",
+          inset: 0,
+          zIndex: -1,
+          borderBottom: `1px solid ${scrolled ? "var(--border)" : "transparent"}`,
+          background: scrolled ? "rgba(12,11,9,0.82)" : "transparent",
+          backdropFilter: scrolled ? "blur(24px)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(24px)" : "none",
+          transition: "background 0.4s, border-color 0.4s",
+        }}
+      />
       {/* Logo */}
       <Link
         href="/"
