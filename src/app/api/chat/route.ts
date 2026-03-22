@@ -1,7 +1,7 @@
+import { GoogleGenerativeAI } from '@google/generative-ai'
 import { NextRequest, NextResponse } from 'next/server'
-// Recommended: google/gemini-2.0-flash-exp:free (very fast and capable)
-// Fallback could be: meta-llama/llama-3.3-70b-instruct:free
-const MODEL = 'google/gemini-2.0-flash-exp:free'
+
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
 
 const SYSTEM_PROMPT = `Si Bella, priateľská AI asistentka
 prémiového kaderníctva Bella Studio v Bratislave.
@@ -37,38 +37,35 @@ export async function POST(request: NextRequest) {
   try {
     const { messages } = await request.json()
 
-    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
-        'Content-Type': 'application/json',
-        'HTTP-Referer': 'https://bellastudio.sk', // Optional: for OpenRouter rankings
-        'X-Title': 'Bella Studio AI',             // Optional: for OpenRouter rankings
-      },
-      body: JSON.stringify({
-        model: MODEL,
-        messages: [
-          { role: 'system', content: SYSTEM_PROMPT },
-          ...messages
-        ],
-        max_tokens: 250,
-        temperature: 0.7,
-      })
+    const model = genAI.getGenerativeModel({
+      model: 'gemini-2.5-flash',
+      systemInstruction: SYSTEM_PROMPT
     })
 
-    if (!response.ok) {
-      const errorText = await response.text()
-      throw new Error(`OpenRouter error: ${response.status} ${errorText}`)
-    }
+    // Convert messages to Gemini format (uses 'model' instead of 'assistant')
+    // Skip messages until we hit the first 'user' message — Gemini requires
+    // history to start with 'user', so we drop any leading assistant greeting.
+    const allPrior: { role: string; content: string }[] = messages.slice(0, -1)
+    const firstUserIdx = allPrior.findIndex((m) => m.role === 'user')
+    const history = (firstUserIdx === -1 ? [] : allPrior.slice(firstUserIdx)).map(
+      (m) => ({
+        role: m.role === 'assistant' ? 'model' : 'user',
+        parts: [{ text: m.content }]
+      })
+    )
 
-    const data = await response.json()
-    const text = data.choices[0]?.message?.content || 'Ospravedlňujem sa, neviem teraz odpovedať.'
+    const chat = model.startChat({ history })
+
+    const lastMessage = messages[messages.length - 1].content
+    const result = await chat.sendMessage(lastMessage)
+    const text = result.response.text()
 
     return NextResponse.json({ message: text })
   } catch (error) {
-    console.error('OpenRouter error:', error)
+    console.error('Gemini error:', JSON.stringify(error, null, 2))
+    const errorMessage = error instanceof Error ? error.message : JSON.stringify(error)
     return NextResponse.json(
-      { message: 'Ospravedlňujem sa, nastala chyba. Zavolajte nám na +421 950 504 171.' },
+      { message: `Ospravedlňujem sa, nastala chyba. Zavolajte nám na +421 950 504 171. (${errorMessage})` },
       { status: 500 }
     )
   }
