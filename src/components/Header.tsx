@@ -37,10 +37,10 @@ export default function Header() {
           position: "absolute",
           inset: 0,
           zIndex: -1,
-          borderBottom: `1px solid ${scrolled ? "var(--border)" : "transparent"}`,
-          background: scrolled ? "rgba(12,11,9,0.82)" : "transparent",
-          backdropFilter: scrolled ? "blur(24px)" : "none",
-          WebkitBackdropFilter: scrolled ? "blur(24px)" : "none",
+          borderBottom: `1px solid ${scrolled ? "var(--border)" : "rgba(237,232,223,0.04)"}`,
+          background: scrolled ? "rgba(12,11,9,0.92)" : "rgba(12,11,9,0.75)",
+          backdropFilter: "blur(24px)",
+          WebkitBackdropFilter: "blur(24px)",
           transition: "background 0.4s, border-color 0.4s",
         }}
       />
