@@ -174,23 +174,23 @@ export default function Gallery() {
         {/* 3 comparison sliders */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           <ComparisonCard
-            beforeSrc="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&q=80"
-            afterSrc="https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=600&q=80"
+            beforeSrc="/images/before-after/balayage-pred.jpg"
+            afterSrc="/images/before-after/balayage-po.jpg"
             beforeAlt="Pred - Balayage"
             afterAlt="Po - Balayage"
             label="Balayage"
             showLabels
           />
           <ComparisonCard
-            beforeSrc="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&q=80"
-            afterSrc="https://images.unsplash.com/photo-1554519934-e32b1629d9ee?w=600&q=80"
+            beforeSrc="/images/before-after/farbenie-pred.jpg"
+            afterSrc="/images/before-after/farbenie-po.jpg"
             beforeAlt="Pred - Farbenie"
             afterAlt="Po - Farbenie"
             label="Farbenie vlasov"
           />
           <ComparisonCard
-            beforeSrc="https://images.unsplash.com/photo-1562322140-8baeececf3df?w=600&q=80"
-            afterSrc="https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?w=600&q=80"
+            beforeSrc="/images/before-after/strihanie-pred.jpg"
+            afterSrc="/images/before-after/strihanie-po.jpg"
             beforeAlt="Pred - Strihanie"
             afterAlt="Po - Strihanie"
             label="Strihanie & Styling"
