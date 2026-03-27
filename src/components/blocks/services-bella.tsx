@@ -10,8 +10,7 @@ import { useBookingModal } from "@/context/BookingModalContext";
 const services = [
   {
     id: 1,
-    imageSrc:
-      "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&q=80",
+    imageSrc: "/images/services/service-strihanie.jpg",
     imageAlt: "Strihanie a styling",
     title: "Strihanie a styling",
     price: "od €30",
@@ -22,8 +21,7 @@ const services = [
   },
   {
     id: 2,
-    imageSrc:
-      "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&q=80",
+    imageSrc: "/images/services/service-farbenie.jpg",
     imageAlt: "Farbenie vlasov",
     title: "Farbenie vlasov",
     price: "od €55",
@@ -34,8 +32,7 @@ const services = [
   },
   {
     id: 3,
-    imageSrc:
-      "https://images.unsplash.com/photo-1562322140-8baeececf3df?w=600&q=80",
+    imageSrc: "/images/services/service-balayage.jpg",
     imageAlt: "Melír a Balayage",
     title: "Melír & Balayage",
     price: "od €75",
@@ -46,8 +43,7 @@ const services = [
   },
   {
     id: 4,
-    imageSrc:
-      "https://images.unsplash.com/photo-1522337913523-33d2e08b1f8c?w=600&q=80",
+    imageSrc: "/images/services/service-keratin.jpg",
     imageAlt: "Keratin a regenerácia",
     title: "Keratin & Regenerácia",
     price: "od €65",
@@ -58,8 +54,7 @@ const services = [
   },
   {
     id: 5,
-    imageSrc:
-      "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=600&q=80",
+    imageSrc: "/images/services/service-svadobne.jpg",
     imageAlt: "Svadobné a spoločenské účesy",
     title: "Svadobné účesy",
     price: "od €85",

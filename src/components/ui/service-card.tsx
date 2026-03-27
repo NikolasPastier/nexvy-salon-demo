@@ -86,10 +86,6 @@ export function ServiceCard({
                 ? "grayscale(20%) brightness(0.85)"
                 : "grayscale(70%) brightness(0.75)",
             }}
-            onError={(e) => {
-              e.currentTarget.src =
-                "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&q=80";
-            }}
           />
           {/* Gold top bar slides in on hover */}
           <div
