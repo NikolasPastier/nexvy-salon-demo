@@ -174,7 +174,7 @@ export function BellaHero() {
 
           {/* Main salon photo */}
           <img
-            src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=1400&q=85"
+            src="/images/hero-salon.jpg"
             alt="Bella Studio - interiér salónu"
             style={{
               width: "100%",
@@ -182,10 +182,6 @@ export function BellaHero() {
               objectFit: "cover",
               objectPosition: "center",
               display: "block",
-            }}
-            onError={(e) => {
-              e.currentTarget.src =
-                "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=1400&q=85";
             }}
           />
 
