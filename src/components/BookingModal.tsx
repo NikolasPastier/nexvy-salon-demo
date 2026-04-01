@@ -11,6 +11,7 @@ import {
   MessageSquare,
   CheckCircle,
   AlertCircle,
+  MapPin,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useBookingModal } from "@/context/BookingModalContext";
@@ -159,46 +160,30 @@ export default function BookingModal() {
     };
   }, [isOpen]);
 
-  // Submit
+  // Reset form state when modal closes
+  useEffect(() => {
+    if (!isOpen) {
+      setSubmitted(false);
+      setValues({ name: "", phone: "", service: "", date: "", time: "", notes: "" });
+    }
+  }, [isOpen]);
+
+  // Slovak date formatter
+  const formatDate = (d: string) => {
+    if (!d) return "";
+    const [y, mo, day] = d.split("-");
+    const months = ["januára","februára","marca","apríla","mája","júna",
+                    "júla","augusta","septembra","októbra","novembra","decembra"];
+    return `${parseInt(day)}. ${months[parseInt(mo) - 1]} ${y}`;
+  };
+
+  // Submit — fake loading then show success card
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    try {
-      const serviceName =
-        config.services.find((s) => s.id === values.service)?.title ??
-        values.service;
-
-      const res = await fetch(config.business.booking.webhookUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          type: "booking",
-          name: values.name,
-          phone: values.phone,
-          service: values.service,
-          serviceName,
-          date: values.date,
-          time: values.time,
-          notes: values.notes,
-          ...(preferredStylist ? { preferredStylist } : {}),
-          salon: config.business.name,
-        }),
-      });
-
-      if (!res.ok) throw new Error("Server error");
-
-      setSubmitted(true);
-      setTimeout(() => {
-        setSubmitted(false);
-        setValues({ name: "", phone: "", service: "", date: "", time: "", notes: "" });
-        closeModal();
-        showToast("Ďakujeme! Potvrdenie dostanete na WhatsApp.", "success");
-      }, 1800);
-    } catch {
-      showToast("Niečo sa pokazilo. Skúste to znova alebo nám zavolajte.", "error");
-    } finally {
-      setLoading(false);
-    }
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    setLoading(false);
+    setSubmitted(true);
   };
 
   // ── Shared styles ───────────────────────────────────────
@@ -410,8 +395,134 @@ export default function BookingModal() {
                   }}
                 />
 
+                {/* Success card */}
+                {submitted && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                    style={{ paddingBottom: "8px" }}
+                  >
+                    {/* Gold checkmark */}
+                    <div style={{ display: "flex", justifyContent: "center", marginBottom: "20px" }}>
+                      <motion.div
+                        initial={{ scale: 0.5, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{ delay: 0.15, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                        style={{
+                          width: "68px", height: "68px", borderRadius: "50%",
+                          background: "rgba(200,146,42,0.1)",
+                          border: "1px solid rgba(200,146,42,0.35)",
+                          display: "flex", alignItems: "center", justifyContent: "center",
+                        }}
+                      >
+                        <CheckCircle size={30} style={{ color: "#C8922A" }} />
+                      </motion.div>
+                    </div>
+
+                    {/* Headline */}
+                    <h3 style={{
+                      fontFamily: "'Cormorant Garamond', Georgia, serif",
+                      fontSize: "clamp(24px, 4vw, 30px)", fontWeight: 400, fontStyle: "italic",
+                      color: "#EDE8DF", textAlign: "center", lineHeight: 1.2, margin: "0 0 6px",
+                    }}>
+                      Ďakujeme, {values.name.split(" ")[0]}!
+                    </h3>
+                    <p style={{
+                      fontFamily: "'DM Sans', sans-serif",
+                      fontSize: "9px", fontWeight: 500, letterSpacing: "0.2em",
+                      textTransform: "uppercase", color: "#C8922A",
+                      textAlign: "center", margin: "0 0 24px",
+                    }}>
+                      Váš termín je potvrdený
+                    </p>
+
+                    {/* Booking details */}
+                    <div style={{
+                      background: "rgba(237,232,223,0.03)",
+                      border: "1px solid rgba(200,146,42,0.18)",
+                      borderRadius: "14px", padding: "20px", marginBottom: "20px",
+                    }}>
+                      {/* Service */}
+                      <div style={{ display: "flex", gap: "12px", alignItems: "flex-start", marginBottom: "14px" }}>
+                        <Scissors size={14} style={{ color: "#C8922A", flexShrink: 0, marginTop: "3px" }} />
+                        <div>
+                          <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "9px", letterSpacing: "0.16em", textTransform: "uppercase", color: "rgba(237,232,223,0.35)", marginBottom: "3px" }}>Služba</div>
+                          <div style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: "19px", fontWeight: 400, color: "#EDE8DF" }}>
+                            {config.services.find(s => s.id === values.service)?.title ?? values.service}
+                            {" "}
+                            <span style={{ color: "rgba(237,232,223,0.45)", fontSize: "14px" }}>
+                              — {config.services.find(s => s.id === values.service)?.price}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Date + time */}
+                      {(values.date || values.time) && (
+                        <div style={{ display: "flex", gap: "12px", alignItems: "flex-start", marginBottom: "14px" }}>
+                          <Calendar size={14} style={{ color: "#C8922A", flexShrink: 0, marginTop: "3px" }} />
+                          <div>
+                            <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "9px", letterSpacing: "0.16em", textTransform: "uppercase", color: "rgba(237,232,223,0.35)", marginBottom: "3px" }}>Dátum a čas</div>
+                            <div style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: "19px", fontWeight: 400, color: "#EDE8DF" }}>
+                              {values.date ? formatDate(values.date) : "Podľa dohody"}
+                              {values.time ? ` o ${values.time}` : ""}
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Address */}
+                      <div style={{ display: "flex", gap: "12px", alignItems: "flex-start" }}>
+                        <MapPin size={14} style={{ color: "#C8922A", flexShrink: 0, marginTop: "3px" }} />
+                        <div>
+                          <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "9px", letterSpacing: "0.16em", textTransform: "uppercase", color: "rgba(237,232,223,0.35)", marginBottom: "3px" }}>Adresa</div>
+                          <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "14px", fontWeight: 300, color: "rgba(237,232,223,0.75)", lineHeight: 1.5 }}>
+                            {config.business.contacts.address}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* WhatsApp note */}
+                    <p style={{
+                      fontFamily: "'DM Sans', sans-serif",
+                      fontSize: "13px", fontWeight: 300,
+                      color: "rgba(237,232,223,0.55)",
+                      textAlign: "center", lineHeight: 1.65, margin: "0 0 20px",
+                    }}>
+                      Potvrdenie sme vám poslali na WhatsApp.<br />
+                      Tešíme sa na vás! 🎉
+                    </p>
+
+                    {/* Close */}
+                    <button
+                      onClick={closeModal}
+                      style={{
+                        width: "100%", padding: "14px",
+                        borderRadius: "9999px", border: "1px solid rgba(237,232,223,0.1)",
+                        background: "rgba(237,232,223,0.05)",
+                        color: "rgba(237,232,223,0.7)",
+                        fontFamily: "'DM Sans', sans-serif", fontSize: "11px",
+                        fontWeight: 500, letterSpacing: "0.14em", textTransform: "uppercase",
+                        cursor: "pointer", transition: "background 0.25s, border-color 0.25s",
+                      }}
+                      onMouseEnter={e => {
+                        e.currentTarget.style.background = "rgba(237,232,223,0.1)";
+                        e.currentTarget.style.borderColor = "rgba(237,232,223,0.2)";
+                      }}
+                      onMouseLeave={e => {
+                        e.currentTarget.style.background = "rgba(237,232,223,0.05)";
+                        e.currentTarget.style.borderColor = "rgba(237,232,223,0.1)";
+                      }}
+                    >
+                      Zavrieť
+                    </button>
+                  </motion.div>
+                )}
+
                 {/* Form */}
-                <form onSubmit={handleSubmit}>
+                {!submitted && <form onSubmit={handleSubmit}>
 
                   {/* Preferred stylist badge */}
                   {preferredStylist && (
@@ -676,11 +787,7 @@ export default function BookingModal() {
                       gap: "8px",
                     }}
                   >
-                    {submitted
-                      ? "✓ Rezervácia odoslaná"
-                      : loading
-                      ? "Odosielam…"
-                      : "Odoslať rezerváciu"}
+                    {loading ? "Overujeme dostupnosť…" : "Odoslať rezerváciu"}
                   </motion.button>
 
                   {/* Privacy note */}
@@ -696,7 +803,7 @@ export default function BookingModal() {
                   >
                     Vaše údaje spracúvame iba za účelom rezervácie termínu.
                   </p>
-                </form>
+                </form>}
               </div>
             </div>
           </motion.div>
