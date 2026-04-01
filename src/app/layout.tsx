@@ -4,6 +4,7 @@ import "./globals.css";
 import { BookingModalProvider } from "@/context/BookingModalContext";
 import BookingModal, { Toast } from "@/components/BookingModal";
 import CustomCursor from "@/components/CustomCursor";
+import { VapiWidget } from "@/components/VapiWidget";
 import config from "../../content/site-config.json";
 
 const cormorant = Cormorant_Garamond({
@@ -91,6 +92,7 @@ export default function RootLayout({
           {children}
           <BookingModal />
           <Toast />
+          <VapiWidget />
         </BookingModalProvider>
       </body>
     </html>
