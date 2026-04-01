@@ -91,6 +91,21 @@ export default function Header() {
 
       {/* Desktop right */}
       <div className="hidden md:flex items-center" style={{ gap: 28 }}>
+        <Link
+          href="/dashboard"
+          style={{
+            fontSize: 11,
+            color: "rgba(237,232,223,0.45)",
+            textDecoration: "none",
+            letterSpacing: "0.12em",
+            textTransform: "uppercase",
+            transition: "color 0.25s",
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.color = "var(--gold)")}
+          onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(237,232,223,0.45)")}
+        >
+          Personál
+        </Link>
         <a
           href={`tel:${config.business.contacts.phone.replace(/\s/g, "")}`}
           style={{
